@@ -11,6 +11,10 @@ from typing import Any, Protocol
 
 from mcp.client import Client
 from mcp.server.mcpserver import MCPServer
+from opentelemetry import trace
+from opentelemetry.trace import Status, StatusCode
+
+from . import tracing
 
 MODEL = "claude-sonnet-5-5"
 MAX_STEPS = 8
@@ -32,6 +36,8 @@ class Turn:
     tool_calls: list[ToolCall]
     stop_reason: str  # "end_turn", "tool_use", "refusal", "max_tokens", ...
     content: list[Any]  # what to put back into the history as the assistant message
+    usage: dict[str, int] | None = None  # input_tokens / output_tokens, when the model says
+    response_model: str | None = None
 
 
 class ModelClient(Protocol):
@@ -72,11 +78,14 @@ def system_prompt(now: datetime) -> str:
 class AnthropicModel:
     """Calls Claude through the official SDK. Reads ANTHROPIC_API_KEY from the environment."""
 
+    provider = "anthropic"
+
     def __init__(self, model: str = MODEL) -> None:
         import anthropic
 
         self._client = anthropic.Anthropic()
         self._model = model
+        self.model_name = model
 
     def create(self, system: str, messages: list[dict], tools: list[dict]) -> Turn:
         resp = self._client.messages.create(
@@ -90,7 +99,18 @@ class AnthropicModel:
             ToolCall(b.id, b.name, dict(b.input)) for b in resp.content if b.type == "tool_use"
         ]
         text = "".join(b.text for b in resp.content if b.type == "text")
-        return Turn(text, calls, resp.stop_reason or "end_turn", list(resp.content))
+        usage = {
+            "input_tokens": resp.usage.input_tokens,
+            "output_tokens": resp.usage.output_tokens,
+        }
+        return Turn(
+            text,
+            calls,
+            resp.stop_reason or "end_turn",
+            list(resp.content),
+            usage=usage,
+            response_model=getattr(resp, "model", None),
+        )
 
 
 class McpTools:
@@ -121,8 +141,58 @@ class McpTools:
         return text[:MAX_TOOL_OUTPUT_CHARS], bool(result.is_error)
 
 
+def _provider_name(model: object) -> str:
+    return str(getattr(model, "provider", "tidewise.offline"))
+
+
+def _model_name(model: object) -> str:
+    return str(getattr(model, "model_name", type(model).__name__))
+
+
 async def run_agent(
     question: str, model: ModelClient, tools: McpTools, now: datetime
+) -> AgentResult:
+    """Run the loop inside one `invoke_agent` span (see tracing.py)."""
+    tracer = tracing.get_tracer()
+    provider, model_name = _provider_name(model), _model_name(model)
+    with tracer.start_as_current_span(
+        "invoke_agent tidewise",
+        attributes={
+            "gen_ai.operation.name": "invoke_agent",
+            "gen_ai.provider.name": provider,
+            "gen_ai.agent.name": "tidewise",
+            "gen_ai.request.model": model_name,
+        },
+    ) as root:
+        try:
+            result = await _loop(question, model, tools, now, tracer, provider, model_name)
+        except Exception as exc:
+            root.set_attribute("error.type", type(exc).__name__)
+            raise
+        root.set_attribute("tidewise.steps", result.steps)
+        root.set_attribute("tidewise.tool_calls", len(result.tool_calls))
+        root.set_attribute("gen_ai.response.finish_reasons", [result.stop_reason])
+        usage = [t["usage"] for t in result.trace if t.get("usage")]
+        if usage:
+            root.set_attribute("gen_ai.usage.input_tokens", sum(u["input_tokens"] for u in usage))
+            root.set_attribute("gen_ai.usage.output_tokens", sum(u["output_tokens"] for u in usage))
+        if result.stop_reason == "max_steps":
+            root.set_attribute("error.type", "max_steps")
+            root.set_status(Status(StatusCode.ERROR, "no final answer within the step limit"))
+        if tracing.capture_content():
+            root.set_attribute("tidewise.question", question)
+            root.set_attribute("tidewise.answer", result.answer)
+        return result
+
+
+async def _loop(
+    question: str,
+    model: ModelClient,
+    tools: McpTools,
+    now: datetime,
+    tracer: trace.Tracer,
+    provider: str,
+    model_name: str,
 ) -> AgentResult:
     system = system_prompt(now)
     messages: list[dict] = [{"role": "user", "content": question}]
@@ -134,20 +204,39 @@ async def run_agent(
 
     for step in range(1, MAX_STEPS + 1):
         started = ms()
-        turn = model.create(system, messages, tools.specs)
-        result.trace.append(
-            {
-                "type": "model",
-                "step": step,
-                "at_ms": started,
-                "duration_ms": round(ms() - started, 1),
-                "text": turn.text,
-                "stop_reason": turn.stop_reason,
-                "tool_calls": [
-                    {"id": c.id, "name": c.name, "input": c.input} for c in turn.tool_calls
-                ],
-            }
-        )
+        with tracer.start_as_current_span(
+            f"chat {model_name}",
+            kind=trace.SpanKind.CLIENT,
+            attributes={
+                "gen_ai.operation.name": "chat",
+                "gen_ai.provider.name": provider,
+                "gen_ai.request.model": model_name,
+                "tidewise.step": step,
+            },
+        ) as span:
+            try:
+                turn = model.create(system, messages, tools.specs)
+            except Exception as exc:
+                span.set_attribute("error.type", type(exc).__name__)
+                raise
+            span.set_attribute("gen_ai.response.finish_reasons", [turn.stop_reason])
+            if turn.response_model:
+                span.set_attribute("gen_ai.response.model", turn.response_model)
+            if turn.usage:
+                span.set_attribute("gen_ai.usage.input_tokens", turn.usage["input_tokens"])
+                span.set_attribute("gen_ai.usage.output_tokens", turn.usage["output_tokens"])
+        entry = {
+            "type": "model",
+            "step": step,
+            "at_ms": started,
+            "duration_ms": round(ms() - started, 1),
+            "text": turn.text,
+            "stop_reason": turn.stop_reason,
+            "tool_calls": [{"id": c.id, "name": c.name, "input": c.input} for c in turn.tool_calls],
+        }
+        if turn.usage:
+            entry["usage"] = turn.usage
+        result.trace.append(entry)
         result.steps = step
         result.stop_reason = turn.stop_reason
         messages.append({"role": "assistant", "content": turn.content})
@@ -162,10 +251,31 @@ async def run_agent(
         blocks = []
         for call in turn.tool_calls:
             started = ms()
-            try:
-                output, is_error = await tools.call(call.name, call.input)
-            except Exception as exc:  # bad tool name, protocol problem
-                output, is_error = f"Tool call failed: {exc}", True
+            with tracer.start_as_current_span(
+                f"execute_tool {call.name}",
+                attributes={
+                    "gen_ai.operation.name": "execute_tool",
+                    "gen_ai.tool.name": call.name,
+                    "gen_ai.tool.call.id": call.id,
+                    "gen_ai.tool.type": "function",
+                    "tidewise.step": step,
+                },
+            ) as span:
+                if tracing.capture_content():
+                    span.set_attribute("gen_ai.tool.call.arguments", json.dumps(call.input))
+                try:
+                    output, is_error = await tools.call(call.name, call.input)
+                except Exception as exc:  # bad tool name, protocol problem
+                    output, is_error = f"Tool call failed: {exc}", True
+                    span.record_exception(exc)
+                    span.set_attribute("error.type", type(exc).__name__)
+                else:
+                    if is_error:
+                        span.set_attribute("error.type", "tool_error")
+                if is_error:
+                    span.set_status(Status(StatusCode.ERROR, output[:200]))
+                if tracing.capture_content():
+                    span.set_attribute("gen_ai.tool.call.result", output)
             took = round(ms() - started, 1)
             result.tool_calls.append(ToolRecord(call.name, call.input, output, is_error, took))
             result.trace.append(

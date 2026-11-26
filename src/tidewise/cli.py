@@ -155,6 +155,12 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(
         prog="tidewise", description="Canadian tide data for AI assistants."
     )
+    p.add_argument(
+        "--trace",
+        action="store_true",
+        help="write OpenTelemetry traces (to traces/tidewise.otlp.jsonl, or to "
+        "OTEL_EXPORTER_OTLP_ENDPOINT if set); same as TIDEWISE_TRACE=1",
+    )
     sub = p.add_subparsers(dest="cmd", required=True)
 
     sub.add_parser("serve", help="run the MCP server over stdio")
@@ -235,6 +241,8 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     args = p.parse_args(argv)
+    if args.trace:
+        os.environ["TIDEWISE_TRACE"] = "1"
     logging.getLogger().setLevel(
         logging.ERROR
     )  # the MCP client logs tool errors; the CLI shows them itself
@@ -257,6 +265,11 @@ def main(argv: list[str] | None = None) -> int:
             )
         except RecordError as exc:
             sys.exit(f"error: {exc}")
+    if args.cmd in {"ask", "eval"}:
+        from . import tracing
+
+        if tracing.setup_from_env():
+            print("Tracing is on (see docs/tracing.md).", file=sys.stderr)
     if args.cmd == "ask":
         return asyncio.run(_ask(args))
     if args.cmd == "site":

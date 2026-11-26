@@ -119,6 +119,8 @@ def _period(q: str) -> tuple[str, str] | None:
 
 
 class RuleModel:
+    model_name = "rule-based"
+
     def __init__(self, now: datetime) -> None:
         self._now = now
 

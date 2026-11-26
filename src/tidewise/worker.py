@@ -106,6 +106,9 @@ def main() -> int:
 
     logging.getLogger().setLevel(logging.ERROR)
     request = json.loads(sys.stdin.read())
+    from . import tracing
+
+    tracing.setup_from_env()  # no-op unless TIDEWISE_TRACE is set in the environment
     try:
         reply = asyncio.run(run_one(request))
     except Exception as exc:

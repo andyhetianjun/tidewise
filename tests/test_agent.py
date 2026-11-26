@@ -109,7 +109,10 @@ def test_anthropic_model_maps_response_and_request():
                     type="tool_use", id="toolu_1", name="find_stations", input={"query": "x"}
                 ),
             ]
-            return SimpleNamespace(content=blocks, stop_reason="tool_use")
+            usage = SimpleNamespace(input_tokens=120, output_tokens=15)
+            return SimpleNamespace(
+                content=blocks, stop_reason="tool_use", usage=usage, model="claude-sonnet-5-5"
+            )
 
     model = AnthropicModel.__new__(AnthropicModel)
     model._client = SimpleNamespace(messages=FakeMessages())
@@ -120,3 +123,4 @@ def test_anthropic_model_maps_response_and_request():
     assert captured["tools"] == tools and captured["system"] == "sys"
     assert turn.tool_calls == [ToolCall("toolu_1", "find_stations", {"query": "x"})]
     assert turn.text == "Checking." and turn.stop_reason == "tool_use"
+    assert turn.usage == {"input_tokens": 120, "output_tokens": 15}

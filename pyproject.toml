@@ -11,6 +11,9 @@ dependencies = [
     "anthropic>=2.14.0",
     "httpx>=0.28.1",
     "mcp>=2.3.0",
+    "opentelemetry-api>=1.45.2",
+    "opentelemetry-exporter-otlp-proto-http>=1.45.2",
+    "opentelemetry-sdk>=1.45.2",
     "tzdata>=2026.6",
 ]
 
@@ -25,6 +28,7 @@ build-backend = "uv_build"
 dev = [
     "pytest>=9.2.0",
     "pytest-asyncio>=1.5.0",
+    "pyyaml>=6.0.4",
     "ruff>=0.17.6",
 ]
 
@@ -46,3 +50,4 @@ select = ["E", "F", "I", "UP", "B"]
 "src/tidewise/report.py" = ["E501"]
 "src/tidewise/site.py" = ["E501"]
 "src/tidewise/live.py" = ["E501"]
+"src/tidewise/traceview.py" = ["E501"]
