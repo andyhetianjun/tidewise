@@ -6,7 +6,7 @@ Tidewise scores how well a model uses its tools. When no API key is available, a
 
 You are the assistant in a tide-data chat. Answer one question, using only the tools. Work from the repository folder (the one that contains this file). Use only the commands below: do not read other files in this repository, do not run `record list` or `record status`, and do not look at `recordings/`, the tests or `eval_cases.json`. They are not part of what the assistant knows.
 
-You will be given one case id. Then:
+You will be given one case id, a short code like `c07`. Then:
 
 1. Run `uv run tidewise record prompt <case-id>`. It prints the assistant's system prompt, the tools (with their input schemas) and the user's question. That is everything the assistant knows.
 2. Decide what the assistant would do. To call a tool, run
@@ -19,8 +19,8 @@ Do not run `prompt` a second time for the same case (it starts the session over)
 
 ## If you are running the recordings
 
-- `uv run tidewise record list` shows every case id and whether it is done. `record status` shows how many are done.
-- Give each fresh session one case id and this file. One session per question keeps the answers independent.
+- `uv run tidewise record list` shows every opaque id next to its readable id and whether it is done (coordinator only: the readable ids give away what a good answer looks like, so never show the list to the model). `record status` shows how many are done.
+- Give each fresh session one opaque id (`c01` and so on, from a hash of the question text, so they stay the same while the questions do) and this file. The commands print only the opaque id; scoring and the demo use the readable id saved inside each recording. One session per question keeps the answers independent.
 - Recordings are saved as `recordings/<model-id>/<case-id>.json`: the prompt the model saw, each tool call with its arguments, result and timing, the final answer, the model label, a timestamp and the harness version. Tools run against the bundled sample data with a fixed clock (2026-11-25 12:00 UTC), so results can be reproduced. `--live` on `prompt` or `tool` uses live data instead; such recordings cannot be scored against the sample.
 - To record another model, pass `--model <id>` before the command word, for example `uv run tidewise record --model some-model prompt <case-id>`.
 - Score what is recorded: `uv run tidewise eval --from-recordings recordings/claude-sonnet-5-5`. It prints the scores and writes `RESULTS.md` and `results.json` in that folder, with the offline and sloppy baselines run on the same questions.

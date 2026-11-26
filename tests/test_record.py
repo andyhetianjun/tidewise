@@ -15,6 +15,11 @@ def root(tmp_path):
     return tmp_path / "rec"
 
 
+def opaque(case_id: str) -> str:
+    _, cases = load_cases()
+    return rec.opaque_ids(cases)[case_id]
+
+
 def run(root: Path, *args: str) -> int:
     return main(["record", "--root", str(root), *args])
 
@@ -120,3 +125,26 @@ def test_trace_from_recording_has_one_tool_step_per_call():
     kinds = [e["type"] for e in result.trace]
     assert kinds == ["model", "tool", "model"]
     assert result.trace[-1]["text"] == "ok" and result.steps == 2
+
+
+def test_opaque_ids_are_stable_unique_and_hide_the_readable_id(root, capsys):
+    _, cases = load_cases()
+    ids = rec.opaque_ids(cases)
+    assert sorted(ids.values()) == [f"c{i:02d}" for i in range(1, len(cases) + 1)]
+    assert ids == rec.opaque_ids(list(reversed(cases)))  # depends on the question only
+    cid = ids["trap-waves"]
+    assert run(root, "prompt", cid) == 0
+    out = capsys.readouterr().out
+    assert cid in out and "trap" not in out and "waves" not in out.split("QUESTION")[0]
+    assert run(root, "tool", cid, "find_stations", '{"query": "Halifax"}') == 0
+    capsys.readouterr()
+    assert run(root, "answer", cid, "I do not have wave data.") == 0
+    out = capsys.readouterr().out
+    assert cid in out and "trap-waves" not in out
+    saved = json.loads((root / "claude-sonnet-5-5" / "trap-waves.json").read_text())
+    assert saved["case_id"] == "trap-waves" and saved["opaque_id"] == cid
+    assert run(root, "prompt", cid) == 2
+    assert "trap-waves" not in capsys.readouterr().err
+    run(root, "list")
+    listing = capsys.readouterr().out
+    assert cid in listing and "trap-waves" in listing

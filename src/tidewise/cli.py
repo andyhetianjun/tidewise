@@ -81,6 +81,8 @@ def _record(args: argparse.Namespace) -> int:
     now, cases = load_cases(Path(args.cases) if args.cases else DEFAULT_CASES)
     folder = rec.recordings_dir(args.model, Path(args.root))
     try:
+        if hasattr(args, "case_id"):
+            args.case_id = rec.resolve_id(cases, args.case_id)
         if args.action == "list":
             print(rec.cmd_list(folder, cases))
         elif args.action == "status":
@@ -95,8 +97,8 @@ def _record(args: argparse.Namespace) -> int:
             if is_error:
                 print("(the tool returned an error; this call is logged)", file=sys.stderr)
         else:
-            path = rec.cmd_answer(folder, args.case_id, args.text, model=args.model)
-            print(f"Saved the final answer for {args.case_id} to {path}. Done with this question.")
+            rec.cmd_answer(folder, args.case_id, args.text, model=args.model)
+            print(f"Saved the final answer for {rec.oid(args.case_id)}. Done with this question.")
     except rec.RecordError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2

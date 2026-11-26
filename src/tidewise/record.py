@@ -16,6 +16,7 @@ files are scored with the same three checks as every other model.
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import os
 import sys
@@ -53,6 +54,35 @@ def _final_path(folder: Path, case_id: str) -> Path:
 
 def _work_path(folder: Path, case_id: str) -> Path:
     return folder / ".work" / f"{case_id}.json"
+
+
+_OPAQUE: dict[str, str] = {}
+
+
+def opaque_ids(cases: list[dict]) -> dict[str, str]:
+    """Readable id -> c01, c02, ... in the order of a hash of the question text.
+
+    The readable ids (like trap-waves) give away what a good answer looks like, so a
+    model being recorded only ever sees the opaque one. The order depends only on the
+    question text, so the ids stay the same as long as the questions do.
+    """
+    ranked = sorted(cases, key=lambda c: hashlib.sha256(c["question"].encode()).hexdigest())
+    width = max(2, len(str(len(ranked))))
+    return {c["id"]: f"c{i:0{width}d}" for i, c in enumerate(ranked, 1)}
+
+
+def oid(case_id: str) -> str:
+    """The opaque id to show for a readable one."""
+    return _OPAQUE.get(case_id, case_id)
+
+
+def resolve_id(cases: list[dict], given: str) -> str:
+    """Accept an opaque id (or the readable one, for the coordinator); return the readable id."""
+    _OPAQUE.update(opaque_ids(cases))
+    for readable, opaque in _OPAQUE.items():
+        if given in (opaque, readable):
+            return readable
+    raise RecordError(f"Unknown case id: {given!r}. Use the id you were given.")
 
 
 def _find_case(cases: list[dict], case_id: str) -> dict:
@@ -111,28 +141,34 @@ def _set_environment(live: bool, now: datetime) -> datetime:
 def _read_state(folder: Path, case_id: str) -> dict:
     path = _work_path(folder, case_id)
     if not path.exists():
-        raise RecordError(f"No session for {case_id}. Run `{CMD} prompt {case_id}` first.")
+        raise RecordError(
+            f"No session for {oid(case_id)}. Run `{CMD} prompt {oid(case_id)}` first."
+        )
     return json.loads(path.read_text())
 
 
 def cmd_list(folder: Path, cases: list[dict]) -> str:
-    lines = [f"{'id':<40} {'kind':<10} status"]
-    for c in cases:
+    _OPAQUE.update(opaque_ids(cases))
+    lines = [f"{'id':<6} {'readable id (coordinator only)':<40} {'kind':<10} status"]
+    for c in sorted(cases, key=lambda c: oid(c["id"])):
         kind = "trap" if c.get("expect_abstain") else c.get("category", "tide")
-        lines.append(f"{c['id']:<40} {kind:<10} {_status_of(folder, c['id'])}")
+        lines.append(f"{oid(c['id']):<6} {c['id']:<40} {kind:<10} {_status_of(folder, c['id'])}")
     return "\n".join(lines)
 
 
 def cmd_status(folder: Path, cases: list[dict]) -> str:
+    _OPAQUE.update(opaque_ids(cases))
     states = {c["id"]: _status_of(folder, c["id"]) for c in cases}
     done = [i for i, s in states.items() if s == "done"]
     started = [i for i, s in states.items() if s == "started"]
     todo = [i for i, s in states.items() if s == "todo"]
     lines = [f"recorded {len(done)} of {len(cases)} (folder: {folder})"]
     if started:
-        lines.append(f"started, no answer yet ({len(started)}): " + ", ".join(started))
+        lines.append(
+            f"started, no answer yet ({len(started)}): " + ", ".join(oid(i) for i in started)
+        )
     if todo:
-        lines.append(f"not started: {len(todo)} (`list` shows which)")
+        lines.append(f"not started: {len(todo)}")
     return "\n".join(lines)
 
 
@@ -141,7 +177,7 @@ def cmd_prompt(
 ) -> str:
     case = _find_case(cases, case_id)
     if _final_path(folder, case_id).exists() and not redo:
-        raise RecordError(f"{case_id} is already recorded. Pass --redo to record it again.")
+        raise RecordError(f"{oid(case_id)} is already recorded. Pass --redo to record it again.")
     when = _set_environment(live, now)
     system = system_prompt(when)
     specs = asyncio.run(_tool_specs())
@@ -171,9 +207,9 @@ def cmd_prompt(
         "",
         "=== WHAT TO DO NEXT ===",
         f"Call a tool (at most {MAX_CALLS} calls in total):",
-        f"  {CMD} tool {case_id} <tool-name> '<arguments as a JSON object>'",
+        f"  {CMD} tool {oid(case_id)} <tool-name> '<arguments as a JSON object>'",
         "Then give your final answer, as the assistant would write it to the user:",
-        f"  {CMD} answer {case_id} '<your final answer>'",
+        f"  {CMD} answer {oid(case_id)} '<your final answer>'",
         "Use only what the system prompt, the tool list and the tool results tell you.",
     ]
     return "\n".join(parts)
@@ -186,7 +222,7 @@ def cmd_tool(
     if len(state["tool_calls"]) >= MAX_CALLS:
         raise RecordError(
             f"That is already {MAX_CALLS} tool calls. Give your final answer with "
-            f"`{CMD} answer {case_id} '<text>'`."
+            f"`{CMD} answer {oid(case_id)} '<text>'`."
         )
     try:
         args = json.loads(raw_args) if raw_args.strip() else {}
@@ -227,6 +263,7 @@ def cmd_answer(folder: Path, case_id: str, text: str, *, model: str) -> Path:
         "model": model,
         "model_label": model_label(model),
         "case_id": case_id,
+        "opaque_id": oid(case_id),
         "started_at": state["started_at"],
         "recorded_at": _now_iso(),
         "elapsed_s": round((datetime.now(UTC) - started).total_seconds(), 1),
