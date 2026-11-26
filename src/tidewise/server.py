@@ -11,13 +11,15 @@ from .errors import TidewiseError
 from .fixtures import FixtureSource
 from .iwls import IwlsSource
 from .service import DataSource, TideService
+from .weather import EcccSource, WeatherFixtureSource, WeatherService, WeatherSource
 
 INSTRUCTIONS = (
     "Tide and water level data from Fisheries and Oceans Canada (IWLS). "
     "Start with find_stations unless you already know a station code. "
     "Heights are metres above chart datum. Times are returned in UTC and in the "
     "station's local time. A date with no time, like 2026-11-26, means that whole "
-    "local day."
+    "local day. Weather tools (marine forecast, hourly weather) come from Environment "
+    "and Climate Change Canada; they take the same station codes and names."
 )
 
 
@@ -27,8 +29,17 @@ def default_source() -> DataSource:
     return IwlsSource(DiskCache(config.cache_dir()))
 
 
-def create_server(source: DataSource | None = None) -> MCPServer:
+def default_weather() -> WeatherSource:
+    if config.is_offline():
+        return WeatherFixtureSource()
+    return EcccSource(DiskCache(config.cache_dir()))
+
+
+def create_server(
+    source: DataSource | None = None, weather_source: WeatherSource | None = None
+) -> MCPServer:
     service = TideService(source or default_source())
+    weather = WeatherService(weather_source or default_weather(), service._station)
     mcp = MCPServer("tidewise", instructions=INSTRUCTIONS, log_level="WARNING")
 
     def run(fn, **kwargs):  # noqa: ANN001, ANN003, ANN202
@@ -153,6 +164,42 @@ def create_server(source: DataSource | None = None) -> MCPServer:
             end: End time. At most 7 days after start.
         """
         return run(service.compare_observed_vs_predicted, station=station, start=start, end=end)
+
+    @mcp.tool()
+    def get_marine_forecast(station: str) -> dict:
+        """Get the Environment Canada marine weather forecast for the water at a station.
+
+        Returns the text forecast for the marine area the station is in: wind
+        (in knots), weather, visibility, air temperature, freezing spray, and any
+        marine warnings such as gale or small craft warnings. The forecast
+        covers roughly the next 24 to 36 hours and is only for the next day or
+        so. There is no forecast for inland stations, and some areas have none
+        in winter. Use get_hourly_weather for wind hour by hour.
+
+        Args:
+            station: Station code like "00490" or a name like "Halifax".
+        """
+        return run(weather.get_marine_forecast, station=station)
+
+    @mcp.tool()
+    def get_hourly_weather(station: str, start: str = "now", end: str | None = None) -> dict:
+        """Get the hourly weather forecast near a station: wind, temperature, rain chance.
+
+        Uses the nearest Environment Canada city forecast point. Wind is given in
+        km/h and in knots. The forecast only covers about the next 24 hours; the
+        error tells you the window if you ask outside it. Also returns sunrise
+        and sunset. For a marine warning or the wind over open water, use
+        get_marine_forecast as well.
+
+        Args:
+            station: Station code like "00490" or a name like "Halifax".
+            start: Start time. "2026-11-26T06:00" (station local time),
+                "2026-11-26T11:00:00Z" (UTC), a date alone (start of that
+                local day) or "now".
+            end: End time, same formats. A date alone means the end of that day.
+                Defaults to 24 hours after start.
+        """
+        return run(weather.get_hourly_weather, station=station, start=start, end=end)
 
     return mcp
 

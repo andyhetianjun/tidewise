@@ -11,10 +11,12 @@ EXPECTED = {
     "get_tide_predictions",
     "next_high_low_tide",
     "compare_observed_vs_predicted",
+    "get_marine_forecast",
+    "get_hourly_weather",
 }
 
 
-async def test_lists_the_five_tools_with_docs_and_schemas():
+async def test_lists_the_tools_with_docs_and_schemas():
     async with Client(create_server(FixtureSource())) as client:
         tools = (await client.list_tools()).tools
     assert {t.name for t in tools} == EXPECTED
