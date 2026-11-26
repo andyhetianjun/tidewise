@@ -1,4 +1,4 @@
-"""Command line: tidewise serve | ask | eval | run-evals | site."""
+"""Command line: tidewise serve | ask | eval | run-evals | site | record."""
 
 from __future__ import annotations
 
@@ -74,6 +74,35 @@ async def _eval(args: argparse.Namespace) -> int:
     return 0 if all(r.passed for r in dev) else 1
 
 
+def _record(args: argparse.Namespace) -> int:
+    from . import record as rec
+    from .evaluation import DEFAULT_CASES, load_cases
+
+    now, cases = load_cases(Path(args.cases) if args.cases else DEFAULT_CASES)
+    folder = rec.recordings_dir(args.model, Path(args.root))
+    try:
+        if args.action == "list":
+            print(rec.cmd_list(folder, cases))
+        elif args.action == "status":
+            print(rec.cmd_status(folder, cases))
+        elif args.action == "prompt":
+            print(rec.cmd_prompt(folder, cases, now, args.case_id, live=args.live, redo=args.redo))
+        elif args.action == "tool":
+            output, is_error = rec.cmd_tool(
+                folder, args.case_id, args.tool, args.arguments, live=args.live
+            )
+            print(output)
+            if is_error:
+                print("(the tool returned an error; this call is logged)", file=sys.stderr)
+        else:
+            path = rec.cmd_answer(folder, args.case_id, args.text, model=args.model)
+            print(f"Saved the final answer for {args.case_id} to {path}. Done with this question.")
+    except rec.RecordError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    return 0
+
+
 async def _run_evals(args: argparse.Namespace) -> int:
     from .evaluation import DEFAULT_CASES, load_cases
     from .report import write_report
@@ -144,6 +173,33 @@ def main(argv: list[str] | None = None) -> int:
     )
     ev.add_argument("--cases", help="path to a cases JSON file")
     ev.add_argument("-v", "--verbose", action="store_true", help="show every case")
+    ev.add_argument(
+        "--from-recordings",
+        metavar="DIR",
+        help="score saved recordings (see `tidewise record`) instead of running a model",
+    )
+
+    rc = sub.add_parser(
+        "record", help="record a model's answers to the eval questions, step by step"
+    )
+    rc.add_argument("--model", default="claude-sonnet-5-5", help="model id, names the folder")
+    rc.add_argument("--root", default="recordings", help="where recordings are kept")
+    rc.add_argument("--cases", help="path to a cases JSON file")
+    ra = rc.add_subparsers(dest="action", required=True)
+    ra.add_parser("list", help="every case id and whether it is recorded")
+    ra.add_parser("status", help="how many cases are recorded")
+    rp = ra.add_parser("prompt", help="print what the model sees and start a session")
+    rp.add_argument("case_id")
+    rp.add_argument("--live", action="store_true", help="use live data (not scoreable)")
+    rp.add_argument("--redo", action="store_true", help="record a case that is already done")
+    rt = ra.add_parser("tool", help="run a real tool and log the call")
+    rt.add_argument("case_id")
+    rt.add_argument("tool")
+    rt.add_argument("arguments", nargs="?", default="{}", help="a JSON object")
+    rt.add_argument("--live", action="store_true", help="use live data (not scoreable)")
+    rn = ra.add_parser("answer", help="save the final answer")
+    rn.add_argument("case_id")
+    rn.add_argument("text")
 
     rv = sub.add_parser(
         "run-evals",
@@ -163,6 +219,16 @@ def main(argv: list[str] | None = None) -> int:
     site.add_argument("--out", default="site", help="folder to write")
     site.add_argument("--jobs", type=int, default=min(8, os.cpu_count() or 2))
     site.add_argument(
+        "--live",
+        action="store_true",
+        help="add a Today page from live tide and weather data (falls back to the sample)",
+    )
+    site.add_argument(
+        "--recordings",
+        default="recordings/claude-sonnet-5-5",
+        help="folder of recorded runs; the page is added only if it has recordings",
+    )
+    site.add_argument(
         "--bench", action="store_true", help="also time the cases one at a time, for comparison"
     )
 
@@ -177,12 +243,32 @@ def main(argv: list[str] | None = None) -> int:
 
         serve()
         return 0
+    if args.cmd == "record":
+        return _record(args)
+    if args.cmd == "eval" and args.from_recordings:
+        from .evaluation import DEFAULT_CASES
+        from .record import RecordError, score_command
+
+        try:
+            return score_command(
+                Path(args.from_recordings), Path(args.cases) if args.cases else DEFAULT_CASES
+            )
+        except RecordError as exc:
+            sys.exit(f"error: {exc}")
     if args.cmd == "ask":
         return asyncio.run(_ask(args))
     if args.cmd == "site":
         from .site import build_site
 
-        asyncio.run(build_site(Path(args.out), jobs=args.jobs, bench=args.bench))
+        asyncio.run(
+            build_site(
+                Path(args.out),
+                jobs=args.jobs,
+                bench=args.bench,
+                live=args.live,
+                recordings=Path(args.recordings),
+            )
+        )
         print(f"site written to {args.out}/index.html")
         return 0
     if args.cmd == "run-evals":
