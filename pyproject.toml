@@ -45,3 +45,4 @@ select = ["E", "F", "I", "UP", "B"]
 # Long lines of HTML are easier to read as they are than split up.
 "src/tidewise/report.py" = ["E501"]
 "src/tidewise/site.py" = ["E501"]
+"src/tidewise/live.py" = ["E501"]

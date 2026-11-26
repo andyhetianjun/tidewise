@@ -8,13 +8,16 @@ to view it or to build it.
 
 from __future__ import annotations
 
+import asyncio
 import json
 from datetime import UTC, datetime
 from html import escape
 from pathlib import Path
 
-from .evaluation import DEFAULT_CASES, load_cases
-from .report import CSS, MODEL_NOTES, _page, render_trace, write_report
+from .evaluation import DEFAULT_CASES, CaseResult, evaluate_case, load_cases
+from .live import collect, render_live
+from .record import DEFAULT_MODEL, load_recordings, to_result
+from .report import CSS, MODEL_NOTES, _highlight, _page, badge, render_trace, write_report
 from .runner import CaseRun, RunSummary, run_cases
 
 REPO = "https://github.com/andyhetianjun/tidewise"
@@ -30,6 +33,16 @@ CONVERSATIONS = [
     ("trap-hilo-far-future", "A date outside the data"),
     ("trap-waves", "A question no tool can answer"),
 ]
+
+DEFAULT_RECORDINGS = Path("recordings") / DEFAULT_MODEL
+
+RECORDED_NOTE = (
+    "Recorded once from Claude Sonnet 5.5 through a recording harness (each question run by a "
+    "separate fresh session); not a live call. The session played the assistant by running the "
+    "real tools from a shell, one command at a time. Tool calls and results below are exactly "
+    "what was logged; the model's own reasoning between calls was not captured. The tools ran "
+    "against the bundled sample, with the clock set to 2026-11-25 12:00 UTC."
+)
 
 BACK = '<p><a href="../index.html">&larr; Tidewise demo</a></p>'
 
@@ -83,8 +96,86 @@ def render_conversations(summary: RunSummary, stamp: str) -> str:
     return _page("Recorded conversations - Tidewise", body, "style.css")
 
 
+def load_recorded(folder: Path | None, cases: list[dict]) -> list[tuple[dict, dict, CaseResult]]:
+    """Recordings that match a case, in case order, each with its checker verdict."""
+    if folder is None or not folder.is_dir():
+        return []
+    recs = load_recordings(folder)
+    return [
+        (case, recs[case["id"]], evaluate_case(case, to_result(recs[case["id"]])))
+        for case in cases
+        if case["id"] in recs
+    ]
+
+
+def render_recorded(items: list[tuple[dict, dict, CaseResult]], total: int) -> str:
+    label = items[0][1]["model_label"]
+    options, blocks = [], []
+    for case, rec, res in items:
+        cid = escape(case["id"])
+        options.append(f'<option value="{cid}">{escape(case["question"])}</option>')
+        verdict = (
+            f"<p>Right tools: {badge(res.tool_ok)} &nbsp; Answer as expected: "
+            f"{badge(res.answer_ok)} &nbsp; Grounded: {badge(res.grounded)}</p>"
+        )
+        if res.missing:
+            verdict += (
+                "<p class='muted'>Missing: "
+                + escape("; ".join(" / ".join(g) for g in res.missing))
+                + "</p>"
+            )
+        for c in res.unsupported:
+            verdict += (
+                f"<p class='muted'>Not found in any tool result: {escape(c['kind'])} "
+                f"<code>{escape(c['text'])}</code></p>"
+            )
+        if res.grounded:
+            n = len(res.claims)
+            verdict += (
+                f"<p class='muted'>All {n} checkable claim(s) in the answer appear in the tool "
+                "output.</p>"
+                if n
+                else "<p class='muted'>The answer makes no time, number or place claims to "
+                "check.</p>"
+            )
+        blocks.append(
+            f'<section class="rq" id="{cid}" data-id="{cid}">'
+            f'<div class="step"><h3>You</h3><p><b>{escape(case["question"])}</b></p></div>'
+            f"{render_trace(to_result(rec).trace)}"
+            f'<h3>Recorded answer</h3><div class="answer">{_highlight(rec["answer"], res.unsupported)}</div>'
+            f"<h3>Checker verdict</h3>{verdict}"
+            f'<p class="muted">Recorded {escape(rec["recorded_at"])} (UTC), harness version '
+            f"{escape(rec['harness_version'])}, {len(rec['tool_calls'])} tool call(s).</p></section>"
+        )
+    body = (
+        '<p><a href="index.html">&larr; Tidewise demo</a></p>'
+        f"<h1>Recorded with {escape(label)}</h1>"
+        f'<div class="note"><b>{escape(RECORDED_NOTE)}</b></div>'
+        f"<p>{len(items)} of {total} questions are recorded. Pick one to see the answer, "
+        "the steps behind it and what the checks said. Scores for the whole set are on the "
+        '<a href="index.html">home page</a>.</p>'
+        '<p id="pick" hidden><label for="q"><b>Question</b></label><br>'
+        f'<select id="q" style="max-width:100%;font:inherit;padding:.3rem">{"".join(options)}</select></p>'
+        + "".join(blocks)
+        + "<script>(function(){var sel=document.getElementById('q'),secs=document.querySelectorAll('.rq');"
+        "document.getElementById('pick').hidden=false;"
+        "function show(id){secs.forEach(function(s){s.hidden=s.dataset.id!==id});sel.value=id;}"
+        "var start=decodeURIComponent(location.hash.slice(1));"
+        "if(!document.getElementById(start))start=sel.options[0].value;show(start);"
+        "sel.addEventListener('change',function(){show(sel.value);history.replaceState(null,'','#'+sel.value)});"
+        "})();</script>"
+    )
+    return _page(f"Recorded with {label} - Tidewise", body, "style.css")
+
+
 def render_home(
-    fake: RunSummary, sloppy: RunSummary, bench: tuple[float, float, int] | None, stamp: str
+    fake: RunSummary,
+    sloppy: RunSummary,
+    bench: tuple[float, float, int] | None,
+    stamp: str,
+    recorded: list[tuple[dict, dict, CaseResult]] | None = None,
+    live: dict | None = None,
+    total: int = 0,
 ) -> str:
     def row(label: str, s: RunSummary) -> str:
         tool, n = s.rate("tool_ok")
@@ -99,6 +190,33 @@ def render_home(
             f"<td>{trap_ok}/{len(traps)}</td><td>{s.passed}/{n}</td></tr>"
         )
 
+    recorded = recorded or []
+    recorded_row = ""
+    recorded_item = ""
+    if recorded:
+        res = [r for _, _, r in recorded]
+        k = len(res)
+        traps = [r for r in res if r.expect_abstain]
+        label = recorded[0][1]["model_label"]
+        recorded_row = (
+            f"<tr><td>{escape(label)} (recorded, {k} of {total} questions)</td>"
+            f"<td>{sum(r.tool_ok for r in res)}/{k}</td><td>{sum(r.answer_ok for r in res)}/{k}</td>"
+            f"<td>{sum(r.grounded for r in res)}/{k}</td>"
+            f"<td>{sum(r.answer_ok and r.grounded for r in traps)}/{len(traps)}</td>"
+            f"<td>{sum(r.passed for r in res)}/{k}</td></tr>"
+        )
+        recorded_item = (
+            f'<li><a href="recorded.html"><b>Recorded with {escape(label)}</b></a>: pick a '
+            f"question and see the answer a real model gave, its tool calls and what the "
+            f"checks said. Recorded once, not a live call.</li>"
+        )
+    live_item = ""
+    if live:
+        live_item = (
+            f'<li><a href="live.html"><b>Today</b></a>: tides and marine weather for five '
+            f"stations, refreshed every 6 hours from the live services (last updated "
+            f"{escape(live['built_utc'])}; {'live data' if live['overall'] == 'live' else 'partly or fully the bundled sample, see the page'}).</li>"
+        )
     bench_html = ""
     if bench:
         serial, parallel, jobs = bench
@@ -119,6 +237,7 @@ Built {escape(stamp)}.</div>
 
 <h2>What is in it</h2>
 <ul>
+{live_item}{recorded_item}
 <li><a href="conversations.html"><b>Recorded conversations</b></a>: eight questions, each shown step by step with the exact tool calls, arguments and results.</li>
 <li><a href="eval/index.html"><b>Eval report, offline model</b></a>: {fake.n} questions, each run in its own process. Click any case for its full trace and the grounding check.</li>
 <li><a href="eval-sloppy/index.html"><b>Eval report, sloppy model</b></a>: the same questions answered by a model that pads answers with made-up details. The grounding check marks every invented time, height and wind speed.</li>
@@ -129,6 +248,7 @@ Built {escape(stamp)}.</div>
 <tr><th>Model</th><th>Right tools</th><th>Answer as expected</th><th>Grounded</th><th>Trap cases handled</th><th>All three</th></tr>
 {row("Offline rule-based model", fake)}
 {row("Deliberately sloppy model", sloppy)}
+{recorded_row}
 </table></div>
 <p class="muted">Grounded means every time, date, height, wind speed and place name in the answer is found
 in a tool result. A trap case is a question with no real answer (a station that does not exist, a
@@ -148,7 +268,13 @@ after it was finished and are marked on the report.</p>
 
 
 async def build_site(
-    out: Path, *, jobs: int = 8, bench: bool = False, cases_path: Path = DEFAULT_CASES
+    out: Path,
+    *,
+    jobs: int = 8,
+    bench: bool = False,
+    cases_path: Path = DEFAULT_CASES,
+    recordings: Path | None = DEFAULT_RECORDINGS,
+    live: bool = False,
 ) -> None:
     now, cases = load_cases(cases_path)
     stamp = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
@@ -169,7 +295,18 @@ async def build_site(
     write_report(fake, out / "eval", "Eval report: offline model", BACK)
     write_report(sloppy, out / "eval-sloppy", "Eval report: deliberately sloppy model", BACK)
     (out / "conversations.html").write_text(render_conversations(fake, stamp))
-    (out / "index.html").write_text(render_home(fake, sloppy, bench_result, stamp))
+    recorded = load_recorded(recordings, cases)
+    if recorded:
+        (out / "recorded.html").write_text(render_recorded(recorded, len(cases)))
+    live_data = None
+    if live:
+        now_utc = datetime.now(UTC)
+        live_data = await asyncio.to_thread(collect, now_utc)
+        (out / "live.html").write_text(render_live(live_data, now_utc))
+        (out / "live.json").write_text(json.dumps(live_data, indent=1, ensure_ascii=False))
+    (out / "index.html").write_text(
+        render_home(fake, sloppy, bench_result, stamp, recorded, live_data, total=len(cases))
+    )
     (out / "site.json").write_text(
         json.dumps(
             {
