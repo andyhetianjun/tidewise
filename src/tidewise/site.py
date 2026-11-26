@@ -19,6 +19,7 @@ from .live import collect, render_live
 from .record import DEFAULT_MODEL, load_recordings, to_result
 from .report import CSS, MODEL_NOTES, _highlight, _page, badge, render_trace, write_report
 from .runner import CaseRun, RunSummary, run_cases
+from .traceview import build_trace_list, sample_traces, write_traces
 
 REPO = "https://github.com/andyhetianjun/tidewise"
 
@@ -239,6 +240,7 @@ Built {escape(stamp)}.</div>
 <h2>What is in it</h2>
 <ul>
 {live_item}{recorded_item}
+<li><a href="traces.html"><b>Trace viewer</b></a>: a waterfall of where the time goes in one answer, from the recorded Claude runs and from sample runs with tracing on.</li>
 <li><a href="conversations.html"><b>Recorded conversations</b></a>: eight questions, each shown step by step with the exact tool calls, arguments and results.</li>
 <li><a href="eval/index.html"><b>Eval report, offline model</b></a>: {fake.n} questions, each run in its own process. Click any case for its full trace and the grounding check.</li>
 <li><a href="eval-sloppy/index.html"><b>Eval report, sloppy model</b></a>: the same questions answered by a model that pads answers with made-up details. The grounding check marks every invented time, height and wind speed.</li>
@@ -299,6 +301,10 @@ async def build_site(
     recorded = load_recorded(recordings, cases)
     if recorded:
         (out / "recorded.html").write_text(render_recorded(recorded, len(cases)))
+    by_id = {c["id"]: c for c in cases}
+    sample_cases = [by_id[cid] for cid, _ in CONVERSATIONS if cid in by_id]
+    samples = await sample_traces(sample_cases, now)
+    write_traces(out, build_trace_list([(c, r) for c, r, _ in recorded], samples))
     live_data = None
     if live:
         now_utc = datetime.now(UTC)
