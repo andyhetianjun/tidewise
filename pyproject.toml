@@ -1,0 +1,42 @@
+[project]
+name = "tidewise"
+version = "0.1.0"
+description = "An MCP server for Canadian tide and water level data, with a small agent CLI and evals."
+readme = "README.md"
+authors = [
+    { name = "Andy He", email = "andy-he@hotmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=2.14.0",
+    "httpx>=0.28.1",
+    "mcp>=2.3.0",
+    "tzdata>=2026.6",
+]
+
+[project.scripts]
+tidewise = "tidewise.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.5.0",
+    "ruff>=0.17.6",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
