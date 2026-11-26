@@ -46,12 +46,17 @@ uv run tidewise eval --model sloppy  # a model that is careless on purpose
 | --- | --- | --- | --- | --- | --- |
 | Offline rule-based model | 42/43 | 43/43 | 43/43 | 15/15 | 4/5 |
 | Sloppy model | 42/43 | 28/43 | 3/43 | 0/15 | 0/5 |
+| Claude Sonnet 5.5 (recorded) | 40/43 | 37/43 | 38/43 | 15/15 | 4/5 |
 
 The sloppy model calls the right tools. After that it adds a made-up detail to every answer (an extra high tide, a gust speed, a station that does not exist) and, when a tool returns an error, invents an answer instead of admitting it. 28 of its 43 answers still contain every fact the old check looked for, so the old check would have passed them. The grounding check passes 3 of 43 (the ones with no numbers to invent).
 
 The one held-out case the rule-based model gets wrong is "How strong are the tidal streams in Halifax Harbour?": it answers correctly that it does not know, but only after looking up a station it did not need.
 
-Read these carefully. The offline model is a keyword matcher I wrote, and I saw most of the questions while writing it. These numbers show the checks work, not how good Claude is. I have not run this with Claude (no API key here); `uv run tidewise eval --model anthropic` is the command, and it is untested.
+The Claude row comes from recordings, not an API call: each question was run by a separate fresh Claude Sonnet 5.5 session through the recording harness (see [RECORDING.md](../RECORDING.md)), once. Score them with `uv run tidewise eval --from-recordings recordings/claude-sonnet-5-5`. The held-out figure is 4 of 5 passing all three checks.
+
+Claude passed grounding on 38 of 43 answers. The five it failed: three stated times that no tool returned (09:30 and 16:30 for Halifax, a "best window to 15:30", "slack high around 08:30"), one named the Bay of Fundy from general knowledge, and one was a false alarm: it quoted the current time (12:00 UTC) from the system prompt, which my checker does not count as a source. All 15 traps were handled: it said it did not know and invented nothing. The full list is in the README under "Where Claude slipped".
+
+Read these carefully. The offline model is a keyword matcher I wrote, and I saw most of the questions while writing it, so its higher scores are not evidence that it is better than Claude. One recorded run per question is a small sample.
 
 ### How good is the checker itself
 

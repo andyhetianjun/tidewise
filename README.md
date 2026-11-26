@@ -8,6 +8,20 @@ I built a small server that lets an AI assistant look up real Canadian tide and 
 
 ![A short clip of the demo site](docs/img/demo.gif)
 
+## How Claude does
+
+I ran all 43 questions with Claude Sonnet 5.5 as the assistant:
+
+| Model | Right tools | Answer as expected | Grounded | Traps handled | All three |
+| --- | --- | --- | --- | --- | --- |
+| Claude Sonnet 5.5 (recorded) | 40/43 | 37/43 | 38/43 | 15/15 | 31/43 |
+| Offline rule-based model | 42/43 | 43/43 | 43/43 | 15/15 | 42/43 |
+| Deliberately sloppy model | 42/43 | 28/43 | 3/43 | 0/15 | 3/43 |
+
+How this was recorded: there was no API key, so each question was run by a separate, fresh Claude Sonnet 5.5 session that played the assistant by typing shell commands into a recording harness ([RECORDING.md](RECORDING.md)). The harness runs the real tools on the bundled sample, logs every call, and saves the final answer. So these are real answers from the model, recorded once, not a live API call and not a repeated run. The model's thinking between calls is not captured. The recordings are in `recordings/claude-sonnet-5-5/` and you can step through each one on the [demo site](https://andyhetianjun.github.io/tidewise/recorded.html). To score them again: `uv run tidewise eval --from-recordings recordings/claude-sonnet-5-5`.
+
+Claude handled all 15 questions with no answer correctly. It lost points on 12 of the 43. Several of those are my checks being strict about wording, not wrong answers; [Where Claude slipped](#where-claude-slipped) goes through each. The rule-based model scores higher because I wrote it against these questions, so the comparison says more about my checks than about which one is smarter. One run per question is a small sample.
+
 ## Install in one line
 
 You need [uv](https://docs.astral.sh/uv/), a Python package tool. Nothing else to install, and no account or API key:
@@ -148,11 +162,27 @@ held-out cases, all three checks: 4/5
 
 The sloppy stand-in calls the right tools but pads answers and never says it does not know: 42/43 tools, 28/43 answers that contain the expected facts, but only 3/43 grounded and 0/15 traps handled.
 
-Read these scores carefully. The offline model is a keyword matcher I wrote, not a language model, and I built it against most of these questions. So the scores show that the tools, the loop, the checks and the runner fit together, and that the checks can fail. They say nothing about Claude. I have not run the eval with Claude because I had no API key while building this, so that part is untested. To measure a real model:
+Claude's recorded run (table at the top) scores 31/43 on all three checks, 4/5 on the held-out questions. The offline model is a keyword matcher I wrote against most of these questions, so its scores show that the tools, the loop, the checks and the runner fit together, and that the checks can fail.
 
-```bash
-ANTHROPIC_API_KEY=... uv run tidewise run-evals --model anthropic
-```
+### Where Claude slipped
+
+These are the 12 questions Claude did not pass fully, with what it actually did (the full traces are on the demo site).
+
+Real mistakes, small ones:
+- **Observed water level in Vancouver yesterday.** It reported the lowest reading as 0.79 m at the start of the day. The tool's lowest value was 0.71 m, the first reading of the next day, which the range included. It read the wrong end of the series.
+- **Boat at Saint John.** It said to expect strong tidal currents in the Bay of Fundy. No tool said that; it came from general knowledge. The grounding check flagged the place name.
+- **Halifax predictions on 2026-11-27, kayak at Halifax, paddling at Charlottetown.** It stated times no tool returned: "high near 09:30" and "low near 16:30" when the hourly points were on the hour, "slack high around 08:30" when the tool said 08:36, and a "best window to 15:30" it chose itself. They are reasonable guesses, and they are exactly what the grounding check is for.
+
+Right answer, but my checks wanted something else:
+- **Predicted levels in Vancouver.** It said the low was "about 0.02 m"; the tool said 0.015. Correct rounding, but the check looks for 0.01 or 0.015.
+- **Tide table for Saint John.** It used the high and low tide tool instead of the hourly prediction tool. The four highs and lows it gave are right (8.55 m and 0.35 m), but the check wants the hourly table.
+- **Temperature in Saint John.** It gave 1 to 3 C and left out the 4 C at noon from the range I asked for, so the "1 to 4" check failed.
+- **Canoe at Tofino.** It said no, and gave the storm warning and the tide times, but not the exact words "not a good time".
+- **Boat at Saint John.** Besides the Fundy line, it said "looks calm" and wrote "6:20 am" where the check looks for "looks good" and "06:20".
+- **Marine warnings for Vancouver.** The grounding check flagged "12:00 UTC". That is the current time from the system prompt, which Claude used to point out that the forecast issue time looked later than now. It is a false alarm from my checker, and a sensible observation from Claude.
+- **Waves in Halifax; tidal streams in Halifax Harbour.** Both answers correctly say it does not know. It looked at the marine forecast (waves) or a station (streams) first, and my tool check wants no tool call for these.
+
+Counting only the first group as real mistakes, Claude made small errors on 5 of 43 questions. That reading is mine, so treat it as a judgement, not a measurement.
 
 ## Limits
 
@@ -163,7 +193,7 @@ ANTHROPIC_API_KEY=... uv run tidewise run-evals --model anthropic
 
 ## What I would do next
 
-- Run the eval against Claude and report the real score, with a few phrasings per question.
+- Run each question several times and with a few phrasings, since one recorded run per question is a small sample. Relax the checks that were only strict about wording.
 - Add buoy data for wave height (a trap question today).
 - Add the current speed series some stations have.
 - Serve over streamable HTTP as well as standard input and output.

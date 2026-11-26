@@ -1,0 +1,283 @@
+{
+ "harness_version": "1",
+ "model": "claude-sonnet-5-5",
+ "model_label": "Claude Sonnet 5.5",
+ "case_id": "pred-halifax-date",
+ "opaque_id": "c30",
+ "started_at": "2026-11-26T02:46:30+00:00",
+ "recorded_at": "2026-11-26T02:46:36+00:00",
+ "elapsed_s": 7.0,
+ "live": false,
+ "now": "2026-11-25T12:00:00+00:00",
+ "prompt": {
+  "system": "You answer questions about tides and water levels in Canada using the tools. Never guess tide times or heights; call a tool. The current time is 2026-11-25 12:00 UTC. Find the station first with find_stations unless you already have its code. Tool results include local times for the station; give times to the user in that local time and say which station you used. If a tool returns an error, say plainly what went wrong instead of making up an answer. Keep answers short.",
+  "question": "What are the predicted water levels in Halifax on 2026-11-27?",
+  "tools": [
+   {
+    "name": "find_stations",
+    "description": "Find tide gauge stations by place name, or the nearest ones to a point.\n\n        Give `query` (for example \"Halifax\" or \"Saint John\"), or both `latitude`\n        and `longitude`. With coordinates, results are sorted by distance. Each\n        result has the station `code` to use in the other tools, its time zone,\n        and which data series it has: wlo (observed water level), wlp (predicted\n        water level), wlp-hilo (predicted high and low tides).\n\n        Args:\n            query: Part of a station name. Case does not matter.\n            latitude: Degrees north, -90 to 90. Needs longitude.\n            longitude: Degrees east, -180 to 180 (west is negative). Needs latitude.\n            limit: How many stations to return, 1 to 20.\n            max_distance_km: Drop stations farther than this from the point.\n            include_inactive: Also list stations that are not operating.\n        ",
+    "input_schema": {
+     "type": "object",
+     "properties": {
+      "query": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": null,
+       "title": "Query"
+      },
+      "latitude": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": null,
+       "title": "Latitude"
+      },
+      "longitude": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": null,
+       "title": "Longitude"
+      },
+      "limit": {
+       "default": 5,
+       "title": "Limit",
+       "type": "integer"
+      },
+      "max_distance_km": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": null,
+       "title": "Max Distance Km"
+      },
+      "include_inactive": {
+       "default": false,
+       "title": "Include Inactive",
+       "type": "boolean"
+      }
+     },
+     "title": "find_stationsArguments"
+    }
+   },
+   {
+    "name": "get_water_levels",
+    "description": "Get observed (measured) water levels for a station over a time range.\n\n        Returns a summary (highest, lowest, mean) and the points. Some stations\n        do not report observed levels, and a station can go quiet for a while;\n        the error says so. For the future, use get_tide_predictions instead.\n\n        Args:\n            station: Station code like \"07735\" or a name like \"Vancouver\".\n            start: Start time. \"2026-11-24\" (whole local day), \"2026-11-24T08:00\"\n                (station local time), \"2026-11-24T16:00:00Z\" (UTC) or \"now\".\n            end: End time, same formats. A date alone means the end of that day.\n                At most 7 days after start.\n            resolution_minutes: 15 or 60. At most 200 points are returned.\n        ",
+    "input_schema": {
+     "type": "object",
+     "properties": {
+      "station": {
+       "title": "Station",
+       "type": "string"
+      },
+      "start": {
+       "title": "Start",
+       "type": "string"
+      },
+      "end": {
+       "title": "End",
+       "type": "string"
+      },
+      "resolution_minutes": {
+       "default": 60,
+       "title": "Resolution Minutes",
+       "type": "integer"
+      }
+     },
+     "required": [
+      "station",
+      "start",
+      "end"
+     ],
+     "title": "get_water_levelsArguments"
+    }
+   },
+   {
+    "name": "get_tide_predictions",
+    "description": "Get predicted water levels (the tide table curve) for a station.\n\n        Same inputs and output shape as get_water_levels. Predictions come from\n        harmonic analysis and do not include weather. To find just the next high\n        and low tides, next_high_low_tide is shorter.\n\n        Args:\n            station: Station code like \"00490\" or a name like \"Halifax\".\n            start: Start time. \"2026-11-26\" (whole local day), \"2026-11-26T08:00\"\n                (station local time), \"2026-11-26T12:00:00Z\" (UTC) or \"now\".\n            end: End time, same formats. A date alone means the end of that day.\n                At most 7 days after start.\n            resolution_minutes: 15 or 60. At most 200 points are returned.\n        ",
+    "input_schema": {
+     "type": "object",
+     "properties": {
+      "station": {
+       "title": "Station",
+       "type": "string"
+      },
+      "start": {
+       "title": "Start",
+       "type": "string"
+      },
+      "end": {
+       "title": "End",
+       "type": "string"
+      },
+      "resolution_minutes": {
+       "default": 60,
+       "title": "Resolution Minutes",
+       "type": "integer"
+      }
+     },
+     "required": [
+      "station",
+      "start",
+      "end"
+     ],
+     "title": "get_tide_predictionsArguments"
+    }
+   },
+   {
+    "name": "next_high_low_tide",
+    "description": "List the next predicted high and low tides at a station.\n\n        Each event says whether it is a high or a low, the time (UTC and local)\n        and the height. To answer \"when is high tide tomorrow\", pass\n        after=\"<tomorrow's date>\" and read the events that fall on that day;\n        ask for enough events (count=6 or more) to cover the whole day.\n\n        Args:\n            station: Station code like \"00490\" or a name like \"Halifax\".\n            after: Where to start looking: \"now\", a date, or a date and time.\n            count: How many events to return, 1 to 12.\n        ",
+    "input_schema": {
+     "type": "object",
+     "properties": {
+      "station": {
+       "title": "Station",
+       "type": "string"
+      },
+      "after": {
+       "default": "now",
+       "title": "After",
+       "type": "string"
+      },
+      "count": {
+       "default": 4,
+       "title": "Count",
+       "type": "integer"
+      }
+     },
+     "required": [
+      "station"
+     ],
+     "title": "next_high_low_tideArguments"
+    }
+   },
+   {
+    "name": "compare_observed_vs_predicted",
+    "description": "Compare measured water levels with the predicted tide.\n\n        Returns the average difference, root-mean-square difference and the\n        largest gap (observed minus predicted). Large gaps usually come from\n        storm surge, wind or river flow. Needs a station with both observed\n        and predicted series, and a time range in the past.\n\n        Args:\n            station: Station code or name.\n            start: Start time (same formats as get_water_levels).\n            end: End time. At most 7 days after start.\n        ",
+    "input_schema": {
+     "type": "object",
+     "properties": {
+      "station": {
+       "title": "Station",
+       "type": "string"
+      },
+      "start": {
+       "title": "Start",
+       "type": "string"
+      },
+      "end": {
+       "title": "End",
+       "type": "string"
+      }
+     },
+     "required": [
+      "station",
+      "start",
+      "end"
+     ],
+     "title": "compare_observed_vs_predictedArguments"
+    }
+   },
+   {
+    "name": "get_marine_forecast",
+    "description": "Get the Environment Canada marine weather forecast for the water at a station.\n\n        Returns the text forecast for the marine area the station is in: wind\n        (in knots), weather, visibility, air temperature, freezing spray, and any\n        marine warnings such as gale or small craft warnings. The forecast\n        covers roughly the next 24 to 36 hours and is only for the next day or\n        so. There is no forecast for inland stations, and some areas have none\n        in winter. Use get_hourly_weather for wind hour by hour.\n\n        Args:\n            station: Station code like \"00490\" or a name like \"Halifax\".\n        ",
+    "input_schema": {
+     "type": "object",
+     "properties": {
+      "station": {
+       "title": "Station",
+       "type": "string"
+      }
+     },
+     "required": [
+      "station"
+     ],
+     "title": "get_marine_forecastArguments"
+    }
+   },
+   {
+    "name": "get_hourly_weather",
+    "description": "Get the hourly weather forecast near a station: wind, temperature, rain chance.\n\n        Uses the nearest Environment Canada city forecast point. Wind is given in\n        km/h and in knots. The forecast only covers about the next 24 hours; the\n        error tells you the window if you ask outside it. Also returns sunrise\n        and sunset. For a marine warning or the wind over open water, use\n        get_marine_forecast as well.\n\n        Args:\n            station: Station code like \"00490\" or a name like \"Halifax\".\n            start: Start time. \"2026-11-26T06:00\" (station local time),\n                \"2026-11-26T11:00:00Z\" (UTC), a date alone (start of that\n                local day) or \"now\".\n            end: End time, same formats. A date alone means the end of that day.\n                Defaults to 24 hours after start.\n        ",
+    "input_schema": {
+     "type": "object",
+     "properties": {
+      "station": {
+       "title": "Station",
+       "type": "string"
+      },
+      "start": {
+       "default": "now",
+       "title": "Start",
+       "type": "string"
+      },
+      "end": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": null,
+       "title": "End"
+      }
+     },
+     "required": [
+      "station"
+     ],
+     "title": "get_hourly_weatherArguments"
+    }
+   }
+  ]
+ },
+ "tool_calls": [
+  {
+   "name": "find_stations",
+   "input": {
+    "query": "Halifax"
+   },
+   "output": "{\n  \"count\": 1,\n  \"stations\": [\n    {\n      \"code\": \"00490\",\n      \"name\": \"Halifax\",\n      \"latitude\": 44.65914,\n      \"longitude\": -63.583386,\n      \"province\": \"NS\",\n      \"time_zone\": \"America/Halifax\",\n      \"type\": \"TEMPORARY\",\n      \"operating\": true,\n      \"series\": [\n        \"wlo\",\n        \"wlp\",\n        \"wlp-hilo\",\n        \"dvc1\",\n        \"dvc1-calc\"\n      ]\n    }\n  ]\n}",
+   "is_error": false,
+   "duration_ms": 14.6,
+   "called_at": "2026-11-26T02:46:31+00:00",
+   "live": false
+  },
+  {
+   "name": "get_tide_predictions",
+   "input": {
+    "station": "00490",
+    "start": "2026-11-27",
+    "end": "2026-11-27",
+    "resolution_minutes": 60
+   },
+   "output": "{\n  \"station\": {\n    \"code\": \"00490\",\n    \"name\": \"Halifax\",\n    \"latitude\": 44.65914,\n    \"longitude\": -63.583386,\n    \"province\": \"NS\",\n    \"time_zone\": \"America/Halifax\",\n    \"type\": \"TEMPORARY\",\n    \"operating\": true,\n    \"series\": [\n      \"wlo\",\n      \"wlp\",\n      \"wlp-hilo\",\n      \"dvc1\",\n      \"dvc1-calc\"\n    ]\n  },\n  \"series\": \"wlp\",\n  \"unit\": \"metres above chart datum\",\n  \"count\": 25,\n  \"summary\": {\n    \"max_m\": 1.911,\n    \"max_at_local\": \"2026-11-27 09:00 AST\",\n    \"min_m\": 0.041,\n    \"min_at_local\": \"2026-11-27 16:00 AST\",\n    \"mean_m\": 0.996\n  },\n  \"points\": [\n    {\n      \"time_utc\": \"2026-11-27T04:00:00Z\",\n      \"time_local\": \"2026-11-27 00:00 AST\",\n      \"height_m\": 1.183\n    },\n    {\n      \"time_utc\": \"2026-11-27T05:00:00Z\",\n      \"time_local\": \"2026-11-27 01:00 AST\",\n      \"height_m\": 0.857\n    },\n    {\n      \"time_utc\": \"2026-11-27T06:00:00Z\",\n      \"time_local\": \"2026-11-27 02:00 AST\",\n      \"height_m\": 0.598\n    },\n    {\n      \"time_utc\": \"2026-11-27T07:00:00Z\",\n      \"time_local\": \"2026-11-27 03:00 AST\",\n      \"height_m\": 0.435\n    },\n    {\n      \"time_utc\": \"2026-11-27T08:00:00Z\",\n      \"time_local\": \"2026-11-27 04:00 AST\",\n      \"height_m\": 0.393\n    },\n    {\n      \"time_utc\": \"2026-11-27T09:00:00Z\",\n      \"time_local\": \"2026-11-27 05:00 AST\",\n      \"height_m\": 0.518\n    },\n    {\n      \"time_utc\": \"2026-11-27T10:00:00Z\",\n      \"time_local\": \"2026-11-27 06:00 AST\",\n      \"height_m\": 0.836\n    },\n    {\n      \"time_utc\": \"2026-11-27T11:00:00Z\",\n      \"time_local\": \"2026-11-27 07:00 AST\",\n      \"height_m\": 1.275\n    },\n    {\n      \"time_utc\": \"2026-11-27T12:00:00Z\",\n      \"time_local\": \"2026-11-27 08:00 AST\",\n      \"height_m\": 1.68\n    },\n    {\n      \"time_utc\": \"2026-11-27T13:00:00Z\",\n      \"time_local\": \"2026-11-27 09:00 AST\",\n      \"height_m\": 1.911\n    },\n    {\n      \"time_utc\": \"2026-11-27T14:00:00Z\",\n      \"time_local\": \"2026-11-27 10:00 AST\",\n      \"height_m\": 1.909\n    },\n    {\n      \"time_utc\": \"2026-11-27T15:00:00Z\",\n      \"time_local\": \"2026-11-27 11:00 AST\",\n      \"height_m\": 1.687\n    },\n    {\n      \"time_utc\": \"2026-11-27T16:00:00Z\",\n      \"time_local\": \"2026-11-27 12:00 AST\",\n      \"height_m\": 1.314\n    },\n    {\n      \"time_utc\": \"2026-11-27T17:00:00Z\",\n      \"time_local\": \"2026-11-27 13:00 AST\",\n      \"height_m\": 0.892\n    },\n    {\n      \"time_utc\": \"2026-11-27T18:00:00Z\",\n      \"time_local\": \"2026-11-27 14:00 AST\",\n      \"height_m\": 0.509\n    },\n    {\n      \"time_utc\": \"2026-11-27T19:00:00Z\",\n      \"time_local\": \"2026-11-27 15:00 AST\",\n      \"height_m\": 0.213\n    },\n    {\n      \"time_utc\": \"2026-11-27T20:00:00Z\",\n      \"time_local\": \"2026-11-27 16:00 AST\",\n      \"height_m\": 0.041\n    },\n    {\n      \"time_utc\": \"2026-11-27T21:00:00Z\",\n      \"time_local\": \"2026-11-27 17:00 AST\",\n      \"height_m\": 0.044\n    },\n    {\n      \"time_utc\": \"2026-11-27T22:00:00Z\",\n      \"time_local\": \"2026-11-27 18:00 AST\",\n      \"height_m\": 0.268\n    },\n    {\n      \"time_utc\": \"2026-11-27T23:00:00Z\",\n      \"time_local\": \"2026-11-27 19:00 AST\",\n      \"height_m\": 0.686\n    },\n    {\n      \"time_utc\": \"2026-11-28T00:00:00Z\",\n      \"time_local\": \"2026-11-27 20:00 AST\",\n      \"height_m\": 1.168\n    },\n    {\n      \"time_utc\": \"2026-11-28T01:00:00Z\",\n      \"time_local\": \"2026-11-27 21:00 AST\",\n      \"height_m\": 1.554\n    },\n    {\n      \"time_utc\": \"2026-11-28T02:00:00Z\",\n      \"time_local\": \"2026-11-27 22:00 AST\",\n      \"height_m\": 1.741\n    },\n    {\n      \"time_utc\": \"2026-11-28T03:00:00Z\",\n      \"time_local\": \"2026-11-27 23:00 AST\",\n      \"height_m\": 1.704\n    },\n    {\n      \"time_utc\": \"2026-11-28T04:00:00Z\",\n      \"time_local\": \"2026-11-28 00:00 AST\",\n      \"height_m\": 1.488\n    }\n  ]\n}",
+   "is_error": false,
+   "duration_ms": 15.3,
+   "called_at": "2026-11-26T02:46:33+00:00",
+   "live": false
+  }
+ ],
+ "answer": "Station used: Halifax (00490). Predicted water levels for 2026-11-27, local time (AST), in metres above chart datum. Hourly values are available. Summary: highest about 1.91 m around 09:00 to 10:00, lowest about 0.04 m around 16:00 to 17:00, mean about 1.00 m. Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00. Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+}

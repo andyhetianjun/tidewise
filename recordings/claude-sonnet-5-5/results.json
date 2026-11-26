@@ -1,0 +1,3470 @@
+{
+ "model": "claude-sonnet-5-5",
+ "recorded": 43,
+ "total": 43,
+ "cases": [
+  {
+   "id": "hilo-halifax-high-tomorrow",
+   "category": "tide",
+   "question": "When is high tide in Halifax tomorrow?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide"
+   ],
+   "answer": "Using the Halifax station (00490), tomorrow (Nov 26, Atlantic Standard Time) has two high tides: 8:36 AM at 1.98 m and 9:25 PM at 1.75 m above chart datum.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "quantity",
+     "text": "1.98 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Using the Halifax station (00490), tomorrow (Nov 26, Atlantic Standard Time) has two high tides: 8:36 AM at 1.98 m and 9:25 PM at 1.75 m above chart datum."
+    },
+    {
+     "kind": "quantity",
+     "text": "1.75 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Using the Halifax station (00490), tomorrow (Nov 26, Atlantic Standard Time) has two high tides: 8:36 AM at 1.98 m and 9:25 PM at 1.75 m above chart datum."
+    },
+    {
+     "kind": "time",
+     "text": "8:36 AM",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Using the Halifax station (00490), tomorrow (Nov 26, Atlantic Standard Time) has two high tides: 8:36 AM at 1.98 m and 9:25 PM at 1.75 m above chart datum."
+    },
+    {
+     "kind": "time",
+     "text": "9:25 PM",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Using the Halifax station (00490), tomorrow (Nov 26, Atlantic Standard Time) has two high tides: 8:36 AM at 1.98 m and 9:25 PM at 1.75 m above chart datum."
+    },
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Using the Halifax station (00490), tomorrow (Nov 26, Atlantic Standard Time) has two high tides: 8:36 AM at 1.98 m and 9:25 PM at 1.75 m above chart datum."
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Using the Halifax station (00490), tomorrow (Nov 26, Atlantic Standard Time) has two high tides: 8:36 AM at 1.98 m and 9:25 PM at 1.75 m above chart datum."
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Using the Halifax station (00490), tomorrow (Nov 26, Atlantic Standard Time) has two high tides: 8:36 AM at 1.98 m and 9:25 PM at 1.75 m above chart datum."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "hilo-halifax-low-tomorrow",
+   "category": "tide",
+   "question": "What time is low tide in Halifax tomorrow?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide"
+   ],
+   "answer": "Station used: Halifax (00490). Tomorrow, Thursday 26 Nov, there are two low tides in Halifax (AST): 2:47 am (0.35 m) and 3:33 pm (-0.02 m).",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Station used: Halifax (00490)"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.35 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tomorrow, Thursday 26 Nov, there are two low tides in Halifax (AST): 2:47 am (0.35 m) and 3:33 pm (-0.02 m)."
+    },
+    {
+     "kind": "quantity",
+     "text": "-0.02 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tomorrow, Thursday 26 Nov, there are two low tides in Halifax (AST): 2:47 am (0.35 m) and 3:33 pm (-0.02 m)."
+    },
+    {
+     "kind": "time",
+     "text": "2:47 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tomorrow, Thursday 26 Nov, there are two low tides in Halifax (AST): 2:47 am (0.35 m) and 3:33 pm (-0.02 m)."
+    },
+    {
+     "kind": "time",
+     "text": "3:33 pm",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tomorrow, Thursday 26 Nov, there are two low tides in Halifax (AST): 2:47 am (0.35 m) and 3:33 pm (-0.02 m)."
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Tomorrow, Thursday 26 Nov, there are two low tides in Halifax (AST): 2:47 am (0.35 m) and 3:33 pm (-0.02 m)."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "hilo-saintjohn-tomorrow",
+   "category": "tide",
+   "question": "When is high tide in Saint John tomorrow?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide"
+   ],
+   "answer": "Station used: Saint John, NB. Tomorrow (Thursday, Nov 26) there are two high tides, in local time (AST): 12:10 AM at about 7.95 m, and 12:28 PM at about 8.55 m (the higher one).",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "quantity",
+     "text": "7.95 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tomorrow (Thursday, Nov 26) there are two high tides, in local time (AST): 12:10 AM at about 7.95 m, and 12:28 PM at about 8.55 m (the higher one)."
+    },
+    {
+     "kind": "quantity",
+     "text": "8.55 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tomorrow (Thursday, Nov 26) there are two high tides, in local time (AST): 12:10 AM at about 7.95 m, and 12:28 PM at about 8.55 m (the higher one)."
+    },
+    {
+     "kind": "time",
+     "text": "12:10 AM",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tomorrow (Thursday, Nov 26) there are two high tides, in local time (AST): 12:10 AM at about 7.95 m, and 12:28 PM at about 8.55 m (the higher one)."
+    },
+    {
+     "kind": "time",
+     "text": "12:28 PM",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tomorrow (Thursday, Nov 26) there are two high tides, in local time (AST): 12:10 AM at about 7.95 m, and 12:28 PM at about 8.55 m (the higher one)."
+    },
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Tomorrow (Thursday, Nov 26) there are two high tides, in local time (AST): 12:10 AM at about 7.95 m, and 12:28 PM at about 8.55 m (the higher one)."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "hilo-charlottetown-tomorrow",
+   "category": "tide",
+   "question": "What are the tide times in Charlottetown tomorrow?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide"
+   ],
+   "answer": "Station used: Charlottetown (01700). Tide times for tomorrow, Thursday Nov 26 (local time, AST):\n- Low: 5:37 am, 0.17 m\n- High: 12:22 pm, 2.78 m\n- Low: 5:55 pm, 1.42 m\n- High: 11:25 pm, 2.93 m\nHeights are metres above chart datum.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "01700",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Station used: Charlottetown (01700)"
+    },
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Tide times for tomorrow, Thursday Nov 26 (local time, AST):"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.17 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "- Low: 5:37 am, 0.17 m"
+    },
+    {
+     "kind": "time",
+     "text": "5:37 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "- Low: 5:37 am, 0.17 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "2.78 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "- High: 12:22 pm, 2.78 m"
+    },
+    {
+     "kind": "time",
+     "text": "12:22 pm",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "- High: 12:22 pm, 2.78 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "1.42 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "- Low: 5:55 pm, 1.42 m"
+    },
+    {
+     "kind": "time",
+     "text": "5:55 pm",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "- Low: 5:55 pm, 1.42 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "2.93 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "- High: 11:25 pm, 2.93 m"
+    },
+    {
+     "kind": "time",
+     "text": "11:25 pm",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "- High: 11:25 pm, 2.93 m"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "hilo-halifax-next-high",
+   "category": "tide",
+   "question": "When is the next high tide in Halifax?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide"
+   ],
+   "answer": "The next high tide in Halifax is today (Nov 25) at 8:32 PM AST, about 1.72 m above chart datum. I used the Halifax station (00490). The one after that is Nov 26 at 8:36 AM AST, about 1.98 m.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "quantity",
+     "text": "1.72 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The next high tide in Halifax is today (Nov 25) at 8:32 PM AST, about 1.72 m above chart datum"
+    },
+    {
+     "kind": "time",
+     "text": "8:32 PM AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The next high tide in Halifax is today (Nov 25) at 8:32 PM AST, about 1.72 m above chart datum"
+    },
+    {
+     "kind": "date",
+     "text": "Nov 25",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The next high tide in Halifax is today (Nov 25) at 8:32 PM AST, about 1.72 m above chart datum"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The next high tide in Halifax is today (Nov 25) at 8:32 PM AST, about 1.72 m above chart datum"
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Halifax station (00490)"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Halifax station (00490)"
+    },
+    {
+     "kind": "quantity",
+     "text": "1.98 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The one after that is Nov 26 at 8:36 AM AST, about 1.98 m."
+    },
+    {
+     "kind": "time",
+     "text": "8:36 AM AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The one after that is Nov 26 at 8:36 AM AST, about 1.98 m."
+    },
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The one after that is Nov 26 at 8:36 AM AST, about 1.98 m."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "hilo-halifax-next-low",
+   "category": "tide",
+   "question": "When is the next low tide in Halifax?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide"
+   ],
+   "answer": "The next low tide at Halifax (station 00490) is today, Nov 25, at 2:39 PM AST, with a predicted height of about -0.03 m above chart datum.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "quantity",
+     "text": "-0.03 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The next low tide at Halifax (station 00490) is today, Nov 25, at 2:39 PM AST, with a predicted height of about -0.03 m above chart datum."
+    },
+    {
+     "kind": "time",
+     "text": "2:39 PM AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The next low tide at Halifax (station 00490) is today, Nov 25, at 2:39 PM AST, with a predicted height of about -0.03 m above chart datum."
+    },
+    {
+     "kind": "date",
+     "text": "Nov 25",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The next low tide at Halifax (station 00490) is today, Nov 25, at 2:39 PM AST, with a predicted height of about -0.03 m above chart datum."
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The next low tide at Halifax (station 00490) is today, Nov 25, at 2:39 PM AST, with a predicted height of about -0.03 m above chart datum."
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The next low tide at Halifax (station 00490) is today, Nov 25, at 2:39 PM AST, with a predicted height of about -0.03 m above chart datum."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "hilo-charlottetown-date",
+   "category": "tide",
+   "question": "When is low tide in Charlottetown on 2026-11-27?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide"
+   ],
+   "answer": "Station used: Charlottetown (01700). On 2026-11-27 (local time, AST) there are two low tides: 6:24 AM at 0.16 m and 6:45 PM at 1.42 m above chart datum. The morning one is the lower of the two.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "01700",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Station used: Charlottetown (01700)"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.16 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "On 2026-11-27 (local time, AST) there are two low tides: 6:24 AM at 0.16 m and 6:45 PM at 1.42 m above chart datum"
+    },
+    {
+     "kind": "quantity",
+     "text": "1.42 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "On 2026-11-27 (local time, AST) there are two low tides: 6:24 AM at 0.16 m and 6:45 PM at 1.42 m above chart datum"
+    },
+    {
+     "kind": "time",
+     "text": "6:24 AM",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "On 2026-11-27 (local time, AST) there are two low tides: 6:24 AM at 0.16 m and 6:45 PM at 1.42 m above chart datum"
+    },
+    {
+     "kind": "time",
+     "text": "6:45 PM",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "On 2026-11-27 (local time, AST) there are two low tides: 6:24 AM at 0.16 m and 6:45 PM at 1.42 m above chart datum"
+    },
+    {
+     "kind": "date",
+     "text": "2026-11-27",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "On 2026-11-27 (local time, AST) there are two low tides: 6:24 AM at 0.16 m and 6:45 PM at 1.42 m above chart datum"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "pred-vancouver-tomorrow",
+   "category": "tide",
+   "question": "What are the predicted water levels in Vancouver tomorrow?",
+   "tool_ok": true,
+   "answer_ok": false,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_tide_predictions"
+   ],
+   "answer": "Station used: Vancouver (07735). Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight. The mean for the day is about 3.08 m. Hourly points: 00:00 0.40, 03:00 0.71, 06:00 3.50, 09:00 4.91, 12:00 4.08, 15:00 3.80, 18:00 4.42, 21:00 3.35. These are tide-table predictions and do not include weather.",
+   "missing": [
+    [
+     "0.01",
+     "0.015"
+    ]
+   ],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "07735",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Station used: Vancouver (07735)"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.02 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight"
+    },
+    {
+     "kind": "quantity",
+     "text": "4.91 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight"
+    },
+    {
+     "kind": "quantity",
+     "text": "3.67 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight"
+    },
+    {
+     "kind": "quantity",
+     "text": "4.42 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.94 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight"
+    },
+    {
+     "kind": "time",
+     "text": "01:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight"
+    },
+    {
+     "kind": "time",
+     "text": "09:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight"
+    },
+    {
+     "kind": "time",
+     "text": "14:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight"
+    },
+    {
+     "kind": "time",
+     "text": "18:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight"
+    },
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Predicted water levels for tomorrow, Nov 26, in local station time, in metres above chart datum: low of about 0.02 m at 01:00, rising to a high of about 4.91 m at 09:00, easing to about 3.67 m at 14:00, a second high of about 4.42 m at 18:00, then falling to about 0.94 m by midnight"
+    },
+    {
+     "kind": "quantity",
+     "text": "3.08 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The mean for the day is about 3.08 m"
+    },
+    {
+     "kind": "time",
+     "text": "00:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly points: 00:00 0.40, 03:00 0.71, 06:00 3.50, 09:00 4.91, 12:00 4.08, 15:00 3.80, 18:00 4.42, 21:00 3.35"
+    },
+    {
+     "kind": "time",
+     "text": "03:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly points: 00:00 0.40, 03:00 0.71, 06:00 3.50, 09:00 4.91, 12:00 4.08, 15:00 3.80, 18:00 4.42, 21:00 3.35"
+    },
+    {
+     "kind": "time",
+     "text": "06:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly points: 00:00 0.40, 03:00 0.71, 06:00 3.50, 09:00 4.91, 12:00 4.08, 15:00 3.80, 18:00 4.42, 21:00 3.35"
+    },
+    {
+     "kind": "time",
+     "text": "09:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly points: 00:00 0.40, 03:00 0.71, 06:00 3.50, 09:00 4.91, 12:00 4.08, 15:00 3.80, 18:00 4.42, 21:00 3.35"
+    },
+    {
+     "kind": "time",
+     "text": "12:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly points: 00:00 0.40, 03:00 0.71, 06:00 3.50, 09:00 4.91, 12:00 4.08, 15:00 3.80, 18:00 4.42, 21:00 3.35"
+    },
+    {
+     "kind": "time",
+     "text": "15:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly points: 00:00 0.40, 03:00 0.71, 06:00 3.50, 09:00 4.91, 12:00 4.08, 15:00 3.80, 18:00 4.42, 21:00 3.35"
+    },
+    {
+     "kind": "time",
+     "text": "18:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly points: 00:00 0.40, 03:00 0.71, 06:00 3.50, 09:00 4.91, 12:00 4.08, 15:00 3.80, 18:00 4.42, 21:00 3.35"
+    },
+    {
+     "kind": "time",
+     "text": "21:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly points: 00:00 0.40, 03:00 0.71, 06:00 3.50, 09:00 4.91, 12:00 4.08, 15:00 3.80, 18:00 4.42, 21:00 3.35"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "pred-saintjohn-table",
+   "category": "tide",
+   "question": "Give me the tide table for Saint John tomorrow.",
+   "tool_ok": false,
+   "answer_ok": false,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide"
+   ],
+   "answer": "Tide table for Saint John, NB (station 00065), Thursday 26 Nov 2026, local time (AST), heights in metres above chart datum:\n- 00:10 high, 7.95 m\n- 06:20 low, 0.88 m\n- 12:28 high, 8.55 m\n- 18:52 low, 0.35 m",
+   "missing": [
+    [
+     "8.43",
+     "8.426",
+     "8.4"
+    ],
+    [
+     "0.36"
+    ]
+   ],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "00065",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Tide table for Saint John, NB (station 00065), Thursday 26 Nov 2026, local time (AST), heights in metres above chart datum:"
+    },
+    {
+     "kind": "place",
+     "text": "Saint John",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Tide table for Saint John, NB (station 00065), Thursday 26 Nov 2026, local time (AST), heights in metres above chart datum:"
+    },
+    {
+     "kind": "quantity",
+     "text": "7.95 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "- 00:10 high, 7.95 m"
+    },
+    {
+     "kind": "time",
+     "text": "00:10",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "- 00:10 high, 7.95 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.88 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "- 06:20 low, 0.88 m"
+    },
+    {
+     "kind": "time",
+     "text": "06:20",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "- 06:20 low, 0.88 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "8.55 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "- 12:28 high, 8.55 m"
+    },
+    {
+     "kind": "time",
+     "text": "12:28",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "- 12:28 high, 8.55 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.35 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "- 18:52 low, 0.35 m"
+    },
+    {
+     "kind": "time",
+     "text": "18:52",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "- 18:52 low, 0.35 m"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "pred-halifax-date",
+   "category": "tide",
+   "question": "What are the predicted water levels in Halifax on 2026-11-27?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": false,
+   "tools_called": [
+    "find_stations",
+    "get_tide_predictions"
+   ],
+   "answer": "Station used: Halifax (00490). Predicted water levels for 2026-11-27, local time (AST), in metres above chart datum. Hourly values are available. Summary: highest about 1.91 m around 09:00 to 10:00, lowest about 0.04 m around 16:00 to 17:00, mean about 1.00 m. Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00. Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70.",
+   "missing": [],
+   "unsupported": [
+    {
+     "kind": "time",
+     "text": "09:30",
+     "supported": false,
+     "support": "no tool output has this time",
+     "sentence": "Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00"
+    },
+    {
+     "kind": "time",
+     "text": "16:30",
+     "supported": false,
+     "support": "no tool output has this time",
+     "sentence": "Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00"
+    }
+   ],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Station used: Halifax (00490)"
+    },
+    {
+     "kind": "date",
+     "text": "2026-11-27",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Predicted water levels for 2026-11-27, local time (AST), in metres above chart datum"
+    },
+    {
+     "kind": "quantity",
+     "text": "1.91 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Summary: highest about 1.91 m around 09:00 to 10:00, lowest about 0.04 m around 16:00 to 17:00, mean about 1.00 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.04 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Summary: highest about 1.91 m around 09:00 to 10:00, lowest about 0.04 m around 16:00 to 17:00, mean about 1.00 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "1.00 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Summary: highest about 1.91 m around 09:00 to 10:00, lowest about 0.04 m around 16:00 to 17:00, mean about 1.00 m"
+    },
+    {
+     "kind": "time",
+     "text": "09:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Summary: highest about 1.91 m around 09:00 to 10:00, lowest about 0.04 m around 16:00 to 17:00, mean about 1.00 m"
+    },
+    {
+     "kind": "time",
+     "text": "10:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Summary: highest about 1.91 m around 09:00 to 10:00, lowest about 0.04 m around 16:00 to 17:00, mean about 1.00 m"
+    },
+    {
+     "kind": "time",
+     "text": "16:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Summary: highest about 1.91 m around 09:00 to 10:00, lowest about 0.04 m around 16:00 to 17:00, mean about 1.00 m"
+    },
+    {
+     "kind": "time",
+     "text": "17:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Summary: highest about 1.91 m around 09:00 to 10:00, lowest about 0.04 m around 16:00 to 17:00, mean about 1.00 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.39 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00"
+    },
+    {
+     "kind": "quantity",
+     "text": "1.91 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.04 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00"
+    },
+    {
+     "kind": "quantity",
+     "text": "1.74 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00"
+    },
+    {
+     "kind": "time",
+     "text": "04:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00"
+    },
+    {
+     "kind": "time",
+     "text": "09:30",
+     "supported": false,
+     "support": "no tool output has this time",
+     "sentence": "Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00"
+    },
+    {
+     "kind": "time",
+     "text": "16:30",
+     "supported": false,
+     "support": "no tool output has this time",
+     "sentence": "Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00"
+    },
+    {
+     "kind": "time",
+     "text": "22:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Rough pattern: low about 0.39 m near 04:00, high about 1.91 m near 09:30, low about 0.04 m near 16:30, high about 1.74 m near 22:00"
+    },
+    {
+     "kind": "time",
+     "text": "00:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "01:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "02:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "03:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "04:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "05:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "06:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "07:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "08:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "09:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "10:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "11:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "12:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "13:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "14:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "15:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "16:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "17:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "18:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "19:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "20:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "21:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "22:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    },
+    {
+     "kind": "time",
+     "text": "23:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly: 00:00 1.18, 01:00 0.86, 02:00 0.60, 03:00 0.44, 04:00 0.39, 05:00 0.52, 06:00 0.84, 07:00 1.28, 08:00 1.68, 09:00 1.91, 10:00 1.91, 11:00 1.69, 12:00 1.31, 13:00 0.89, 14:00 0.51, 15:00 0.21, 16:00 0.04, 17:00 0.04, 18:00 0.27, 19:00 0.69, 20:00 1.17, 21:00 1.55, 22:00 1.74, 23:00 1.70."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "obs-vancouver-yesterday",
+   "category": "tide",
+   "question": "What was the observed water level in Vancouver yesterday?",
+   "tool_ok": true,
+   "answer_ok": false,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_water_levels"
+   ],
+   "answer": "Station used: Vancouver (07735). Yesterday (Nov 24, local time) the observed water level ranged from about 0.79 m (00:00) up to a high of 5.17 m at 17:00. Another high of 5.13 m came at 07:00. The mean was about 3.6 m. All heights are metres above chart datum.",
+   "missing": [
+    [
+     "0.71"
+    ]
+   ],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "07735",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Station used: Vancouver (07735)"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.79 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the observed water level ranged from about 0.79 m (00:00) up to a high of 5.17 m at 17:00"
+    },
+    {
+     "kind": "quantity",
+     "text": "5.17 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the observed water level ranged from about 0.79 m (00:00) up to a high of 5.17 m at 17:00"
+    },
+    {
+     "kind": "time",
+     "text": "00:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the observed water level ranged from about 0.79 m (00:00) up to a high of 5.17 m at 17:00"
+    },
+    {
+     "kind": "time",
+     "text": "17:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the observed water level ranged from about 0.79 m (00:00) up to a high of 5.17 m at 17:00"
+    },
+    {
+     "kind": "date",
+     "text": "Nov 24",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the observed water level ranged from about 0.79 m (00:00) up to a high of 5.17 m at 17:00"
+    },
+    {
+     "kind": "quantity",
+     "text": "5.13 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Another high of 5.13 m came at 07:00"
+    },
+    {
+     "kind": "time",
+     "text": "07:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Another high of 5.13 m came at 07:00"
+    },
+    {
+     "kind": "quantity",
+     "text": "3.6 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The mean was about 3.6 m"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "obs-saintjohn-yesterday",
+   "category": "tide",
+   "question": "How high was the water in Saint John yesterday?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_water_levels"
+   ],
+   "answer": "Station used: Saint John, NB (00065). Yesterday (Nov 24, local time) the water ranged from a low of 0.47 m at 5:00 pm AST to a high of 8.41 m at 11:00 am AST, with a mean of 4.46 m (observed, metres above chart datum). The evening high tide was around 7.7 m near 11:00 pm AST. These are hourly readings, so the true peaks may be slightly different.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "00065",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Station used: Saint John, NB (00065)"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.47 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the water ranged from a low of 0.47 m at 5:00 pm AST to a high of 8.41 m at 11:00 am AST, with a mean of 4.46 m (observed, metres above chart datum)"
+    },
+    {
+     "kind": "quantity",
+     "text": "8.41 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the water ranged from a low of 0.47 m at 5:00 pm AST to a high of 8.41 m at 11:00 am AST, with a mean of 4.46 m (observed, metres above chart datum)"
+    },
+    {
+     "kind": "quantity",
+     "text": "4.46 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the water ranged from a low of 0.47 m at 5:00 pm AST to a high of 8.41 m at 11:00 am AST, with a mean of 4.46 m (observed, metres above chart datum)"
+    },
+    {
+     "kind": "time",
+     "text": "5:00 pm AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the water ranged from a low of 0.47 m at 5:00 pm AST to a high of 8.41 m at 11:00 am AST, with a mean of 4.46 m (observed, metres above chart datum)"
+    },
+    {
+     "kind": "time",
+     "text": "11:00 am AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the water ranged from a low of 0.47 m at 5:00 pm AST to a high of 8.41 m at 11:00 am AST, with a mean of 4.46 m (observed, metres above chart datum)"
+    },
+    {
+     "kind": "date",
+     "text": "Nov 24",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yesterday (Nov 24, local time) the water ranged from a low of 0.47 m at 5:00 pm AST to a high of 8.41 m at 11:00 am AST, with a mean of 4.46 m (observed, metres above chart datum)"
+    },
+    {
+     "kind": "quantity",
+     "text": "7.7 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The evening high tide was around 7.7 m near 11:00 pm AST"
+    },
+    {
+     "kind": "time",
+     "text": "11:00 pm AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The evening high tide was around 7.7 m near 11:00 pm AST"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "obs-halifax-gap",
+   "category": "trap",
+   "question": "What was the observed water level in Halifax yesterday?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_water_levels",
+    "get_water_levels"
+   ],
+   "answer": "I could not get the observed water level for Halifax yesterday (24 Nov 2026). I used the Halifax station (00490). It returned no observed readings for 24 Nov, or for the wider period from 23 Nov to now. The station may be offline, or it may not have reported for that period. I will not guess a value. I can give you the predicted tide for yesterday instead if you want it.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I could not get the observed water level for Halifax yesterday (24 Nov 2026)"
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Halifax station (00490)"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Halifax station (00490)"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "compare-saintjohn",
+   "category": "tide",
+   "question": "How did observed water levels compare with predictions in Saint John yesterday?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "compare_observed_vs_predicted"
+   ],
+   "answer": "Station used: Saint John, NB (00065). Yesterday (Nov 24, local time), observed water levels tracked the predicted tide closely. On average the water was 0.014 m lower than predicted, with a typical difference (RMS) of 0.079 m. The biggest gap was 0.181 m below prediction, at 20:15 AST. Differences this small mean there was no notable surge or unusual weather effect.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "00065",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Station used: Saint John, NB (00065)"
+    },
+    {
+     "kind": "date",
+     "text": "Nov 24",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yesterday (Nov 24, local time), observed water levels tracked the predicted tide closely"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.014 m",
+     "supported": true,
+     "support": "matches a tool output, direction given in words",
+     "sentence": "On average the water was 0.014 m lower than predicted, with a typical difference (RMS) of 0.079 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.079 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "On average the water was 0.014 m lower than predicted, with a typical difference (RMS) of 0.079 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.181 m",
+     "supported": true,
+     "support": "matches a tool output, direction given in words",
+     "sentence": "The biggest gap was 0.181 m below prediction, at 20:15 AST"
+    },
+    {
+     "kind": "time",
+     "text": "20:15 AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The biggest gap was 0.181 m below prediction, at 20:15 AST"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "compare-vancouver",
+   "category": "tide",
+   "question": "How much did the observed water level differ from the prediction in Vancouver yesterday?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "compare_observed_vs_predicted"
+   ],
+   "answer": "Using the Vancouver station (07735), on 24 Nov 2026 (local day) the observed water level ran higher than predicted by about 0.52 m on average (RMS difference 0.53 m). The largest gap was 0.64 m above prediction, at 17:00 local time. Weather and river flow can both cause a gap like this.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "quantity",
+     "text": "0.52 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Using the Vancouver station (07735), on 24 Nov 2026 (local day) the observed water level ran higher than predicted by about 0.52 m on average (RMS difference 0.53 m)"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.53 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Using the Vancouver station (07735), on 24 Nov 2026 (local day) the observed water level ran higher than predicted by about 0.52 m on average (RMS difference 0.53 m)"
+    },
+    {
+     "kind": "code",
+     "text": "07735",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Using the Vancouver station (07735), on 24 Nov 2026 (local day) the observed water level ran higher than predicted by about 0.52 m on average (RMS difference 0.53 m)"
+    },
+    {
+     "kind": "place",
+     "text": "Vancouver",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Using the Vancouver station (07735), on 24 Nov 2026 (local day) the observed water level ran higher than predicted by about 0.52 m on average (RMS difference 0.53 m)"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.64 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The largest gap was 0.64 m above prediction, at 17:00 local time"
+    },
+    {
+     "kind": "time",
+     "text": "17:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The largest gap was 0.64 m above prediction, at 17:00 local time"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "compare-tofino-surge",
+   "category": "tide",
+   "question": "Was there a storm surge at Tofino yesterday? Compare observed with predicted.",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "compare_observed_vs_predicted"
+   ],
+   "answer": "Yes, the data points to a storm surge at Tofino yesterday (Nov 24). I used the Tofino station (08615). Observed water was higher than predicted all day: on average 0.61 m above the tide table (RMS difference 0.62 m). The biggest gap was 0.75 m above predicted at 16:00 local time. A gap this steady and large usually means weather, such as storm surge, wind or river flow. The data cannot say which of these caused it.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "date",
+     "text": "Nov 24",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yes, the data points to a storm surge at Tofino yesterday (Nov 24)"
+    },
+    {
+     "kind": "place",
+     "text": "Tofino",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yes, the data points to a storm surge at Tofino yesterday (Nov 24)"
+    },
+    {
+     "kind": "code",
+     "text": "08615",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Tofino station (08615)"
+    },
+    {
+     "kind": "place",
+     "text": "Tofino",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Tofino station (08615)"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.61 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Observed water was higher than predicted all day: on average 0.61 m above the tide table (RMS difference 0.62 m)"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.62 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Observed water was higher than predicted all day: on average 0.61 m above the tide table (RMS difference 0.62 m)"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.75 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The biggest gap was 0.75 m above predicted at 16:00 local time"
+    },
+    {
+     "kind": "time",
+     "text": "16:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The biggest gap was 0.75 m above predicted at 16:00 local time"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "stations-coords-halifax",
+   "category": "tide",
+   "question": "Which tide station is nearest to 44.6, -63.6?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations"
+   ],
+   "answer": "The nearest station is Halifax (code 00490), Nova Scotia, about 6.7 km from 44.6, -63.6. Next closest is Bedford Institute (00491) at about 9.2 km. Halifax is listed as a temporary station and is operating.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "quantity",
+     "text": "6.7 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The nearest station is Halifax (code 00490), Nova Scotia, about 6.7 km from 44.6, -63.6"
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The nearest station is Halifax (code 00490), Nova Scotia, about 6.7 km from 44.6, -63.6"
+    },
+    {
+     "kind": "quantity",
+     "text": "9.2 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Next closest is Bedford Institute (00491) at about 9.2 km"
+    },
+    {
+     "kind": "code",
+     "text": "00491",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Next closest is Bedford Institute (00491) at about 9.2 km"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "stations-coords-victoria",
+   "category": "tide",
+   "question": "What is the closest tide gauge to 48.4, -123.4?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations"
+   ],
+   "answer": "The closest tide gauge is Victoria Harbour (station 07120, BC), about 3.5 km away. It is a permanent station and is operating. It reports observed levels, predicted levels and predicted highs and lows. The next closest are Bamberton (22.8 km) and Sidney (27.7 km).",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "quantity",
+     "text": "3.5 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The closest tide gauge is Victoria Harbour (station 07120, BC), about 3.5 km away"
+    },
+    {
+     "kind": "code",
+     "text": "07120",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The closest tide gauge is Victoria Harbour (station 07120, BC), about 3.5 km away"
+    },
+    {
+     "kind": "quantity",
+     "text": "22.8 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The next closest are Bamberton (22.8 km) and Sidney (27.7 km)."
+    },
+    {
+     "kind": "quantity",
+     "text": "27.7 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The next closest are Bamberton (22.8 km) and Sidney (27.7 km)."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "stations-name-vancouver",
+   "category": "tide",
+   "question": "Which stations are near Vancouver?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "find_stations"
+   ],
+   "answer": "The main station is Vancouver (07735). Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km. All of them report observed and predicted water levels and predicted highs and lows.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "07735",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The main station is Vancouver (07735)"
+    },
+    {
+     "kind": "quantity",
+     "text": "3.1 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "quantity",
+     "text": "3.6 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "quantity",
+     "text": "5.9 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "quantity",
+     "text": "11.3 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "quantity",
+     "text": "12.5 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "quantity",
+     "text": "16.8 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "quantity",
+     "text": "17.0 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "code",
+     "text": "07707",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "code",
+     "text": "07724",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "code",
+     "text": "07780",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "code",
+     "text": "07786",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "code",
+     "text": "07795",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "code",
+     "text": "07654",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    },
+    {
+     "kind": "code",
+     "text": "07755",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Other operating stations nearby, by distance from it: Kitsilano (07707) 3.1 km, Calamity Point (07724) 3.6 km, Ambleside (07780) 5.9 km, Sandy Cove (07786) 11.3 km, Point Atkinson (07795) 12.5 km, New Westminster (07654) 16.8 km, and Port Moody (07755) 17.0 km"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "unknown-place",
+   "category": "trap",
+   "question": "When is high tide in Atlantis?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "find_stations"
+   ],
+   "answer": "I couldn't find a station called Atlantis, including inactive ones, so I can't give a high tide time for it. I don't have a tide time to offer without a station. If you meant a real place in Canada, tell me its name or the nearest town and I'll look it up.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "place",
+     "text": "Atlantis",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "I couldn't find a station called Atlantis, including inactive ones, so I can't give a high tide time for it"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "no-tool-needed",
+   "category": "trap",
+   "question": "Why is the sky blue?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [],
+   "answer": "I can only help with tides, water levels and marine weather in Canada, and my tools can't answer questions about why the sky is blue. If you want tide times, water levels or a marine forecast for a Canadian station, tell me the place and I'll look it up.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [],
+   "expect_abstain": true,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "wind-halifax-morning",
+   "category": "weather",
+   "question": "How windy will it be in Halifax tomorrow morning?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_hourly_weather",
+    "get_marine_forecast"
+   ],
+   "answer": "Very light wind in Halifax tomorrow morning (Thursday, Nov 26). From 6 AM to noon AST the forecast is about 5 km/h (3 knots), variable direction, with no gusts listed. It will be sunny and cold, rising from -3 C at 6 AM to about 3 C by 11 AM. The marine forecast for Halifax Harbour and Approaches also says wind light, with no warnings. Station used: Halifax (00490).",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Very light wind in Halifax tomorrow morning (Thursday, Nov 26)"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Very light wind in Halifax tomorrow morning (Thursday, Nov 26)"
+    },
+    {
+     "kind": "quantity",
+     "text": "5 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "From 6 AM to noon AST the forecast is about 5 km/h (3 knots), variable direction, with no gusts listed"
+    },
+    {
+     "kind": "quantity",
+     "text": "3 knots",
+     "supported": true,
+     "support": "matches a tool output after unit conversion",
+     "sentence": "From 6 AM to noon AST the forecast is about 5 km/h (3 knots), variable direction, with no gusts listed"
+    },
+    {
+     "kind": "time",
+     "text": "6 AM",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "From 6 AM to noon AST the forecast is about 5 km/h (3 knots), variable direction, with no gusts listed"
+    },
+    {
+     "kind": "time",
+     "text": "6 AM",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "It will be sunny and cold, rising from -3 C at 6 AM to about 3 C by 11 AM"
+    },
+    {
+     "kind": "time",
+     "text": "11 AM",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "It will be sunny and cold, rising from -3 C at 6 AM to about 3 C by 11 AM"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax Harbour and Approaches",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The marine forecast for Halifax Harbour and Approaches also says wind light, with no warnings"
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Station used: Halifax (00490)."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "wind-vancouver-morning",
+   "category": "weather",
+   "question": "How windy will it be in Vancouver tomorrow morning?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_hourly_weather",
+    "get_marine_forecast"
+   ],
+   "answer": "Windy, with showers. I used the Vancouver station (07735) and the Environment Canada forecast for the Vancouver area. Thursday morning (Nov 26, 6 am to noon local time) the wind is from the south at about 40 km/h (22 knots), gusting to 60 km/h. It eases to about 30 km/h (16 knots) by noon. Showers are likely all morning, with a risk of thunderstorms from about 8 am. Out on the water, the marine forecast for the Strait of Georgia south of Nanaimo has a gale warning in effect. It calls for southeast wind near 30 knots early Thursday, easing to southeast 15 to 25 knots late morning, then turning southwest 25 near noon. A high water level warning is also in effect.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "07735",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Vancouver station (07735) and the Environment Canada forecast for the Vancouver area"
+    },
+    {
+     "kind": "place",
+     "text": "Vancouver",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Vancouver station (07735) and the Environment Canada forecast for the Vancouver area"
+    },
+    {
+     "kind": "quantity",
+     "text": "40 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Thursday morning (Nov 26, 6 am to noon local time) the wind is from the south at about 40 km/h (22 knots), gusting to 60 km/h"
+    },
+    {
+     "kind": "quantity",
+     "text": "22 knots",
+     "supported": true,
+     "support": "matches a tool output after unit conversion",
+     "sentence": "Thursday morning (Nov 26, 6 am to noon local time) the wind is from the south at about 40 km/h (22 knots), gusting to 60 km/h"
+    },
+    {
+     "kind": "quantity",
+     "text": "60 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Thursday morning (Nov 26, 6 am to noon local time) the wind is from the south at about 40 km/h (22 knots), gusting to 60 km/h"
+    },
+    {
+     "kind": "time",
+     "text": "6 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Thursday morning (Nov 26, 6 am to noon local time) the wind is from the south at about 40 km/h (22 knots), gusting to 60 km/h"
+    },
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Thursday morning (Nov 26, 6 am to noon local time) the wind is from the south at about 40 km/h (22 knots), gusting to 60 km/h"
+    },
+    {
+     "kind": "quantity",
+     "text": "30 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "It eases to about 30 km/h (16 knots) by noon"
+    },
+    {
+     "kind": "quantity",
+     "text": "16 knots",
+     "supported": true,
+     "support": "matches a tool output after unit conversion",
+     "sentence": "It eases to about 30 km/h (16 knots) by noon"
+    },
+    {
+     "kind": "time",
+     "text": "8 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Showers are likely all morning, with a risk of thunderstorms from about 8 am"
+    },
+    {
+     "kind": "place",
+     "text": "Georgia",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Out on the water, the marine forecast for the Strait of Georgia south of Nanaimo has a gale warning in effect"
+    },
+    {
+     "kind": "place",
+     "text": "Nanaimo",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Out on the water, the marine forecast for the Strait of Georgia south of Nanaimo has a gale warning in effect"
+    },
+    {
+     "kind": "quantity",
+     "text": "30 knots",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "It calls for southeast wind near 30 knots early Thursday, easing to southeast 15 to 25 knots late morning, then turning southwest 25 near noon"
+    },
+    {
+     "kind": "quantity",
+     "text": "15 knots",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "It calls for southeast wind near 30 knots early Thursday, easing to southeast 15 to 25 knots late morning, then turning southwest 25 near noon"
+    },
+    {
+     "kind": "quantity",
+     "text": "25 knots",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "It calls for southeast wind near 30 knots early Thursday, easing to southeast 15 to 25 knots late morning, then turning southwest 25 near noon"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "temp-saintjohn-morning",
+   "category": "weather",
+   "question": "What will the temperature be in Saint John tomorrow morning?",
+   "tool_ok": true,
+   "answer_ok": false,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_hourly_weather"
+   ],
+   "answer": "Tomorrow morning (Nov 26) in Saint John, NB, it will be cold and clear. Expect about 1 C at 6 am, 2 C from 7 to 9 am, and 3 C by 10 to 11 am. It will be clear then sunny, with no rain. Wind will be light, NW at 10 km/h early, then SW at 15 km/h. Times are local (AST). Source: Environment Canada hourly forecast for Saint John, the point nearest station 00065.",
+   "missing": [
+    [
+     "1.0 to 4.0",
+     "1 to 4"
+    ]
+   ],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Tomorrow morning (Nov 26) in Saint John, NB, it will be cold and clear"
+    },
+    {
+     "kind": "place",
+     "text": "Saint John",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Tomorrow morning (Nov 26) in Saint John, NB, it will be cold and clear"
+    },
+    {
+     "kind": "time",
+     "text": "6 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Expect about 1 C at 6 am, 2 C from 7 to 9 am, and 3 C by 10 to 11 am"
+    },
+    {
+     "kind": "time",
+     "text": "9 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Expect about 1 C at 6 am, 2 C from 7 to 9 am, and 3 C by 10 to 11 am"
+    },
+    {
+     "kind": "time",
+     "text": "11 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Expect about 1 C at 6 am, 2 C from 7 to 9 am, and 3 C by 10 to 11 am"
+    },
+    {
+     "kind": "quantity",
+     "text": "10 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Wind will be light, NW at 10 km/h early, then SW at 15 km/h"
+    },
+    {
+     "kind": "quantity",
+     "text": "15 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Wind will be light, NW at 10 km/h early, then SW at 15 km/h"
+    },
+    {
+     "kind": "code",
+     "text": "00065",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Source: Environment Canada hourly forecast for Saint John, the point nearest station 00065."
+    },
+    {
+     "kind": "place",
+     "text": "Saint John",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Source: Environment Canada hourly forecast for Saint John, the point nearest station 00065."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "marine-warnings-vancouver",
+   "category": "weather",
+   "question": "Are there any marine warnings for Vancouver?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": false,
+   "tools_called": [
+    "find_stations",
+    "get_marine_forecast"
+   ],
+   "answer": "Yes. I used the Vancouver station (07735) and the Environment Canada marine forecast for the Strait of Georgia, the nearest marine area (about 10 km away). Vancouver sits south of Nanaimo. Warnings in effect there: a Gale warning and a High water level warning. Warnings also in effect north of Nanaimo: a Storm warning and a High water level warning. Forecast for south of Nanaimo: southeast winds of 35 to 45 knots early this evening, easing to 30 overnight. Winds then turn southwest 25 near noon Thursday and fall to 15 to 20 in the afternoon. Expect scattered showers, a risk of thunderstorms Thursday morning, and visibility of 1 mile or less in showers. One caveat: the forecast says it was issued at 16:00 \"MST\" on Nov 25 (23:00 UTC). That is later than the current time of 12:00 UTC, so the timestamp looks off. Check the latest forecast before you head out.",
+   "missing": [],
+   "unsupported": [
+    {
+     "kind": "time",
+     "text": "12:00 UTC",
+     "supported": false,
+     "support": "no tool output has this time",
+     "sentence": "That is later than the current time of 12:00 UTC, so the timestamp looks off"
+    }
+   ],
+   "claims": [
+    {
+     "kind": "quantity",
+     "text": "10 km",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "I used the Vancouver station (07735) and the Environment Canada marine forecast for the Strait of Georgia, the nearest marine area (about 10 km away)"
+    },
+    {
+     "kind": "code",
+     "text": "07735",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Vancouver station (07735) and the Environment Canada marine forecast for the Strait of Georgia, the nearest marine area (about 10 km away)"
+    },
+    {
+     "kind": "place",
+     "text": "Georgia",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Vancouver station (07735) and the Environment Canada marine forecast for the Strait of Georgia, the nearest marine area (about 10 km away)"
+    },
+    {
+     "kind": "place",
+     "text": "Vancouver",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Vancouver station (07735) and the Environment Canada marine forecast for the Strait of Georgia, the nearest marine area (about 10 km away)"
+    },
+    {
+     "kind": "place",
+     "text": "Nanaimo",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Vancouver sits south of Nanaimo"
+    },
+    {
+     "kind": "place",
+     "text": "Nanaimo",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Warnings also in effect north of Nanaimo: a Storm warning and a High water level warning"
+    },
+    {
+     "kind": "quantity",
+     "text": "35 knots",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Forecast for south of Nanaimo: southeast winds of 35 to 45 knots early this evening, easing to 30 overnight"
+    },
+    {
+     "kind": "quantity",
+     "text": "45 knots",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "Forecast for south of Nanaimo: southeast winds of 35 to 45 knots early this evening, easing to 30 overnight"
+    },
+    {
+     "kind": "place",
+     "text": "Nanaimo",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Forecast for south of Nanaimo: southeast winds of 35 to 45 knots early this evening, easing to 30 overnight"
+    },
+    {
+     "kind": "time",
+     "text": "16:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "One caveat: the forecast says it was issued at 16:00 \"MST\" on Nov 25 (23:00 UTC)"
+    },
+    {
+     "kind": "time",
+     "text": "23:00 UTC",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "One caveat: the forecast says it was issued at 16:00 \"MST\" on Nov 25 (23:00 UTC)"
+    },
+    {
+     "kind": "date",
+     "text": "Nov 25",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "One caveat: the forecast says it was issued at 16:00 \"MST\" on Nov 25 (23:00 UTC)"
+    },
+    {
+     "kind": "time",
+     "text": "12:00 UTC",
+     "supported": false,
+     "support": "no tool output has this time",
+     "sentence": "That is later than the current time of 12:00 UTC, so the timestamp looks off"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "marine-halifax",
+   "category": "weather",
+   "question": "What is the marine forecast for Halifax?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_marine_forecast"
+   ],
+   "answer": "Station used: Halifax (00490), marine area Halifax Harbour and Approaches. Issued 8:00 pm AST on Nov 25. Tonight and Thursday: wind light. Air temperature low of -3 tonight, high of +4 on Thursday. No marine warnings in effect.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Station used: Halifax (00490), marine area Halifax Harbour and Approaches"
+    },
+    {
+     "kind": "time",
+     "text": "8:00 pm AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Issued 8:00 pm AST on Nov 25"
+    },
+    {
+     "kind": "date",
+     "text": "Nov 25",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Issued 8:00 pm AST on Nov 25"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "kayak-halifax-morning",
+   "category": "combined",
+   "question": "Is tomorrow morning a good time to launch a kayak at Halifax?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": false,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide",
+    "get_marine_forecast",
+    "get_hourly_weather"
+   ],
+   "answer": "Yes, tomorrow morning (Thu Nov 26) looks good for launching at Halifax (station 00490, local time AST). Wind is light, about 3 knots (5 km/h) from variable directions, with sunny skies and no rain. No marine warnings for Halifax Harbour and Approaches. Tide: low at 02:47 (0.35 m), then high at 08:36 (1.98 m), so the water is rising through the morning and slack high is around 08:30. Sunrise is 07:25. It is cold: about -3 C at 06:00, 0 C at 08:00 and 4 C by noon, so dress for cold water and carry a spare layer.",
+   "missing": [],
+   "unsupported": [
+    {
+     "kind": "time",
+     "text": "08:30",
+     "supported": false,
+     "support": "no tool output has this time",
+     "sentence": "Tide: low at 02:47 (0.35 m), then high at 08:36 (1.98 m), so the water is rising through the morning and slack high is around 08:30"
+    }
+   ],
+   "claims": [
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yes, tomorrow morning (Thu Nov 26) looks good for launching at Halifax (station 00490, local time AST)"
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yes, tomorrow morning (Thu Nov 26) looks good for launching at Halifax (station 00490, local time AST)"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yes, tomorrow morning (Thu Nov 26) looks good for launching at Halifax (station 00490, local time AST)"
+    },
+    {
+     "kind": "quantity",
+     "text": "3 knots",
+     "supported": true,
+     "support": "matches a tool output after unit conversion",
+     "sentence": "Wind is light, about 3 knots (5 km/h) from variable directions, with sunny skies and no rain"
+    },
+    {
+     "kind": "quantity",
+     "text": "5 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Wind is light, about 3 knots (5 km/h) from variable directions, with sunny skies and no rain"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax Harbour and Approaches",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "No marine warnings for Halifax Harbour and Approaches"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.35 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tide: low at 02:47 (0.35 m), then high at 08:36 (1.98 m), so the water is rising through the morning and slack high is around 08:30"
+    },
+    {
+     "kind": "quantity",
+     "text": "1.98 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tide: low at 02:47 (0.35 m), then high at 08:36 (1.98 m), so the water is rising through the morning and slack high is around 08:30"
+    },
+    {
+     "kind": "time",
+     "text": "02:47",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tide: low at 02:47 (0.35 m), then high at 08:36 (1.98 m), so the water is rising through the morning and slack high is around 08:30"
+    },
+    {
+     "kind": "time",
+     "text": "08:36",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tide: low at 02:47 (0.35 m), then high at 08:36 (1.98 m), so the water is rising through the morning and slack high is around 08:30"
+    },
+    {
+     "kind": "time",
+     "text": "08:30",
+     "supported": false,
+     "support": "no tool output has this time",
+     "sentence": "Tide: low at 02:47 (0.35 m), then high at 08:36 (1.98 m), so the water is rising through the morning and slack high is around 08:30"
+    },
+    {
+     "kind": "time",
+     "text": "07:25",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Sunrise is 07:25"
+    },
+    {
+     "kind": "time",
+     "text": "06:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "It is cold: about -3 C at 06:00, 0 C at 08:00 and 4 C by noon, so dress for cold water and carry a spare layer."
+    },
+    {
+     "kind": "time",
+     "text": "08:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "It is cold: about -3 C at 06:00, 0 C at 08:00 and 4 C by noon, so dress for cold water and carry a spare layer."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "kayak-vancouver-morning",
+   "category": "combined",
+   "question": "Is tomorrow morning a good time to launch a kayak at Vancouver?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide",
+    "get_marine_forecast",
+    "get_hourly_weather"
+   ],
+   "answer": "No, tomorrow morning (Thursday 26 Nov) is not a good time to launch a kayak at Vancouver (station 07735, Vancouver). Gale and storm warnings are in effect for the Strait of Georgia, along with high water level warnings. Marine forecast: southeast winds of 30 to 40 knots early Thursday, easing to 15 to 25 knots late morning, with scattered showers and a risk of thunderstorms. Hourly forecast for Vancouver: south wind about 22 knots (40 km/h) gusting to 60 km/h from 06:00 to 11:00, with showers and a 100% chance of rain. Tides: low 01:17 (0.0 m), high 08:53 (4.9 m), low 13:56 (3.7 m). Times are the station local times as reported by the tool. Waiting for another day with calmer winds would be much safer.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "07735",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "No, tomorrow morning (Thursday 26 Nov) is not a good time to launch a kayak at Vancouver (station 07735, Vancouver)"
+    },
+    {
+     "kind": "place",
+     "text": "Vancouver",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "No, tomorrow morning (Thursday 26 Nov) is not a good time to launch a kayak at Vancouver (station 07735, Vancouver)"
+    },
+    {
+     "kind": "place",
+     "text": "Georgia",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Gale and storm warnings are in effect for the Strait of Georgia, along with high water level warnings"
+    },
+    {
+     "kind": "quantity",
+     "text": "30 knots",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "Marine forecast: southeast winds of 30 to 40 knots early Thursday, easing to 15 to 25 knots late morning, with scattered showers and a risk of thunderstorms"
+    },
+    {
+     "kind": "quantity",
+     "text": "40 knots",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "Marine forecast: southeast winds of 30 to 40 knots early Thursday, easing to 15 to 25 knots late morning, with scattered showers and a risk of thunderstorms"
+    },
+    {
+     "kind": "quantity",
+     "text": "15 knots",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "Marine forecast: southeast winds of 30 to 40 knots early Thursday, easing to 15 to 25 knots late morning, with scattered showers and a risk of thunderstorms"
+    },
+    {
+     "kind": "quantity",
+     "text": "25 knots",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "Marine forecast: southeast winds of 30 to 40 knots early Thursday, easing to 15 to 25 knots late morning, with scattered showers and a risk of thunderstorms"
+    },
+    {
+     "kind": "quantity",
+     "text": "22 knots",
+     "supported": true,
+     "support": "matches a tool output after unit conversion",
+     "sentence": "Hourly forecast for Vancouver: south wind about 22 knots (40 km/h) gusting to 60 km/h from 06:00 to 11:00, with showers and a 100% chance of rain"
+    },
+    {
+     "kind": "quantity",
+     "text": "40 km/h",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "Hourly forecast for Vancouver: south wind about 22 knots (40 km/h) gusting to 60 km/h from 06:00 to 11:00, with showers and a 100% chance of rain"
+    },
+    {
+     "kind": "quantity",
+     "text": "60 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Hourly forecast for Vancouver: south wind about 22 knots (40 km/h) gusting to 60 km/h from 06:00 to 11:00, with showers and a 100% chance of rain"
+    },
+    {
+     "kind": "quantity",
+     "text": "100 %",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Hourly forecast for Vancouver: south wind about 22 knots (40 km/h) gusting to 60 km/h from 06:00 to 11:00, with showers and a 100% chance of rain"
+    },
+    {
+     "kind": "time",
+     "text": "06:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly forecast for Vancouver: south wind about 22 knots (40 km/h) gusting to 60 km/h from 06:00 to 11:00, with showers and a 100% chance of rain"
+    },
+    {
+     "kind": "time",
+     "text": "11:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly forecast for Vancouver: south wind about 22 knots (40 km/h) gusting to 60 km/h from 06:00 to 11:00, with showers and a 100% chance of rain"
+    },
+    {
+     "kind": "place",
+     "text": "Vancouver",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Hourly forecast for Vancouver: south wind about 22 knots (40 km/h) gusting to 60 km/h from 06:00 to 11:00, with showers and a 100% chance of rain"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.0 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tides: low 01:17 (0.0 m), high 08:53 (4.9 m), low 13:56 (3.7 m)"
+    },
+    {
+     "kind": "quantity",
+     "text": "4.9 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tides: low 01:17 (0.0 m), high 08:53 (4.9 m), low 13:56 (3.7 m)"
+    },
+    {
+     "kind": "quantity",
+     "text": "3.7 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tides: low 01:17 (0.0 m), high 08:53 (4.9 m), low 13:56 (3.7 m)"
+    },
+    {
+     "kind": "time",
+     "text": "01:17",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tides: low 01:17 (0.0 m), high 08:53 (4.9 m), low 13:56 (3.7 m)"
+    },
+    {
+     "kind": "time",
+     "text": "08:53",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tides: low 01:17 (0.0 m), high 08:53 (4.9 m), low 13:56 (3.7 m)"
+    },
+    {
+     "kind": "time",
+     "text": "13:56",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tides: low 01:17 (0.0 m), high 08:53 (4.9 m), low 13:56 (3.7 m)"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "canoe-tofino-morning",
+   "category": "combined",
+   "question": "Should I launch a canoe at Tofino tomorrow morning?",
+   "tool_ok": true,
+   "answer_ok": false,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_marine_forecast",
+    "get_hourly_weather",
+    "next_high_low_tide"
+   ],
+   "answer": "No, I would not launch tomorrow morning. I used the Tofino station (08615). Environment Canada has a storm warning and a high water level warning in effect for West Coast Vancouver Island South. The marine forecast calls for southwest winds of 25 to 35 knots overnight, easing to about 25 knots near noon Thursday, with rain and a risk of thunderstorms. The hourly forecast for Tofino shows southwest wind of 22 knots (40 km/h), gusting to 60 km/h, from 06:00 to 12:00 local time, with showers and 100% chance of rain. That is far too much wind for a canoe. Tides (local times in the station data): low 08:06 at 1.69 m, high 14:04 at 4.00 m. A big tide swing on top of the high water warning would add to the risk. Wait for the warnings to end and the wind to drop well below 10 knots.",
+   "missing": [
+    [
+     "not a good time"
+    ]
+   ],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "08615",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Tofino station (08615)"
+    },
+    {
+     "kind": "place",
+     "text": "Tofino",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Tofino station (08615)"
+    },
+    {
+     "kind": "quantity",
+     "text": "25 knots",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "The marine forecast calls for southwest winds of 25 to 35 knots overnight, easing to about 25 knots near noon Thursday, with rain and a risk of thunderstorms"
+    },
+    {
+     "kind": "quantity",
+     "text": "35 knots",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The marine forecast calls for southwest winds of 25 to 35 knots overnight, easing to about 25 knots near noon Thursday, with rain and a risk of thunderstorms"
+    },
+    {
+     "kind": "quantity",
+     "text": "25 knots",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "The marine forecast calls for southwest winds of 25 to 35 knots overnight, easing to about 25 knots near noon Thursday, with rain and a risk of thunderstorms"
+    },
+    {
+     "kind": "quantity",
+     "text": "22 knots",
+     "supported": true,
+     "support": "matches a tool output after unit conversion",
+     "sentence": "The hourly forecast for Tofino shows southwest wind of 22 knots (40 km/h), gusting to 60 km/h, from 06:00 to 12:00 local time, with showers and 100% chance of rain"
+    },
+    {
+     "kind": "quantity",
+     "text": "40 km/h",
+     "supported": true,
+     "support": "appears in tool output text",
+     "sentence": "The hourly forecast for Tofino shows southwest wind of 22 knots (40 km/h), gusting to 60 km/h, from 06:00 to 12:00 local time, with showers and 100% chance of rain"
+    },
+    {
+     "kind": "quantity",
+     "text": "60 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The hourly forecast for Tofino shows southwest wind of 22 knots (40 km/h), gusting to 60 km/h, from 06:00 to 12:00 local time, with showers and 100% chance of rain"
+    },
+    {
+     "kind": "quantity",
+     "text": "100 %",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The hourly forecast for Tofino shows southwest wind of 22 knots (40 km/h), gusting to 60 km/h, from 06:00 to 12:00 local time, with showers and 100% chance of rain"
+    },
+    {
+     "kind": "time",
+     "text": "06:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The hourly forecast for Tofino shows southwest wind of 22 knots (40 km/h), gusting to 60 km/h, from 06:00 to 12:00 local time, with showers and 100% chance of rain"
+    },
+    {
+     "kind": "time",
+     "text": "12:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The hourly forecast for Tofino shows southwest wind of 22 knots (40 km/h), gusting to 60 km/h, from 06:00 to 12:00 local time, with showers and 100% chance of rain"
+    },
+    {
+     "kind": "place",
+     "text": "Tofino",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The hourly forecast for Tofino shows southwest wind of 22 knots (40 km/h), gusting to 60 km/h, from 06:00 to 12:00 local time, with showers and 100% chance of rain"
+    },
+    {
+     "kind": "quantity",
+     "text": "1.69 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tides (local times in the station data): low 08:06 at 1.69 m, high 14:04 at 4.00 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "4.00 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tides (local times in the station data): low 08:06 at 1.69 m, high 14:04 at 4.00 m"
+    },
+    {
+     "kind": "time",
+     "text": "08:06",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tides (local times in the station data): low 08:06 at 1.69 m, high 14:04 at 4.00 m"
+    },
+    {
+     "kind": "time",
+     "text": "14:04",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tides (local times in the station data): low 08:06 at 1.69 m, high 14:04 at 4.00 m"
+    },
+    {
+     "kind": "quantity",
+     "text": "10 knots",
+     "supported": true,
+     "support": "difference of two tool output values",
+     "sentence": "Wait for the warnings to end and the wind to drop well below 10 knots."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "paddle-charlottetown-afternoon",
+   "category": "combined",
+   "question": "Is tomorrow afternoon good for paddling at Charlottetown?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": false,
+   "tools_called": [
+    "find_stations",
+    "get_marine_forecast",
+    "get_hourly_weather",
+    "next_high_low_tide"
+   ],
+   "answer": "Yes, tomorrow afternoon (Thu Nov 26) looks good for paddling at Charlottetown (station 01700, local time AST). Hourly forecast for 12:00 to 18:00: sunny, then clear, with southwest wind about 8 knots (15 km/h), easing to 5 knots by 18:00. No rain, and no marine warnings. The marine forecast for Northumberland Strait says westerly 10 to 15 knots, diminishing to light early Thursday evening. Temperatures are cold, 4 C at best, dropping to -1 C by 17:00, so dress for cold water. Sunset is 16:31. Tides: high at 12:22 (2.78 m), low at 17:55 (1.42 m), so the water is falling through the afternoon. Best window is around 12:00 to 15:30, while the wind is lightest and there is daylight.",
+   "missing": [],
+   "unsupported": [
+    {
+     "kind": "time",
+     "text": "15:30",
+     "supported": false,
+     "support": "no tool output has this time",
+     "sentence": "Best window is around 12:00 to 15:30, while the wind is lightest and there is daylight."
+    }
+   ],
+   "claims": [
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yes, tomorrow afternoon (Thu Nov 26) looks good for paddling at Charlottetown (station 01700, local time AST)"
+    },
+    {
+     "kind": "code",
+     "text": "01700",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yes, tomorrow afternoon (Thu Nov 26) looks good for paddling at Charlottetown (station 01700, local time AST)"
+    },
+    {
+     "kind": "place",
+     "text": "Charlottetown",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Yes, tomorrow afternoon (Thu Nov 26) looks good for paddling at Charlottetown (station 01700, local time AST)"
+    },
+    {
+     "kind": "quantity",
+     "text": "8 knots",
+     "supported": true,
+     "support": "matches a tool output after unit conversion",
+     "sentence": "Hourly forecast for 12:00 to 18:00: sunny, then clear, with southwest wind about 8 knots (15 km/h), easing to 5 knots by 18:00"
+    },
+    {
+     "kind": "quantity",
+     "text": "15 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Hourly forecast for 12:00 to 18:00: sunny, then clear, with southwest wind about 8 knots (15 km/h), easing to 5 knots by 18:00"
+    },
+    {
+     "kind": "quantity",
+     "text": "5 knots",
+     "supported": true,
+     "support": "matches a tool output after unit conversion",
+     "sentence": "Hourly forecast for 12:00 to 18:00: sunny, then clear, with southwest wind about 8 knots (15 km/h), easing to 5 knots by 18:00"
+    },
+    {
+     "kind": "time",
+     "text": "12:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly forecast for 12:00 to 18:00: sunny, then clear, with southwest wind about 8 knots (15 km/h), easing to 5 knots by 18:00"
+    },
+    {
+     "kind": "time",
+     "text": "18:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly forecast for 12:00 to 18:00: sunny, then clear, with southwest wind about 8 knots (15 km/h), easing to 5 knots by 18:00"
+    },
+    {
+     "kind": "time",
+     "text": "18:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Hourly forecast for 12:00 to 18:00: sunny, then clear, with southwest wind about 8 knots (15 km/h), easing to 5 knots by 18:00"
+    },
+    {
+     "kind": "quantity",
+     "text": "10 knots",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The marine forecast for Northumberland Strait says westerly 10 to 15 knots, diminishing to light early Thursday evening"
+    },
+    {
+     "kind": "quantity",
+     "text": "15 knots",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "The marine forecast for Northumberland Strait says westerly 10 to 15 knots, diminishing to light early Thursday evening"
+    },
+    {
+     "kind": "place",
+     "text": "Northumberland Strait",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The marine forecast for Northumberland Strait says westerly 10 to 15 knots, diminishing to light early Thursday evening"
+    },
+    {
+     "kind": "time",
+     "text": "17:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Temperatures are cold, 4 C at best, dropping to -1 C by 17:00, so dress for cold water"
+    },
+    {
+     "kind": "time",
+     "text": "16:31",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Sunset is 16:31"
+    },
+    {
+     "kind": "quantity",
+     "text": "2.78 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tides: high at 12:22 (2.78 m), low at 17:55 (1.42 m), so the water is falling through the afternoon"
+    },
+    {
+     "kind": "quantity",
+     "text": "1.42 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tides: high at 12:22 (2.78 m), low at 17:55 (1.42 m), so the water is falling through the afternoon"
+    },
+    {
+     "kind": "time",
+     "text": "12:22",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tides: high at 12:22 (2.78 m), low at 17:55 (1.42 m), so the water is falling through the afternoon"
+    },
+    {
+     "kind": "time",
+     "text": "17:55",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tides: high at 12:22 (2.78 m), low at 17:55 (1.42 m), so the water is falling through the afternoon"
+    },
+    {
+     "kind": "time",
+     "text": "12:00",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Best window is around 12:00 to 15:30, while the wind is lightest and there is daylight."
+    },
+    {
+     "kind": "time",
+     "text": "15:30",
+     "supported": false,
+     "support": "no tool output has this time",
+     "sentence": "Best window is around 12:00 to 15:30, while the wind is lightest and there is daylight."
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "boat-saintjohn-morning",
+   "category": "combined",
+   "question": "Can I go out on the water in a small boat at Saint John tomorrow morning?",
+   "tool_ok": true,
+   "answer_ok": false,
+   "grounded": false,
+   "tools_called": [
+    "find_stations",
+    "get_marine_forecast",
+    "get_hourly_weather",
+    "next_high_low_tide"
+   ],
+   "answer": "Station used: Saint John (NB), local time AST. Tomorrow morning (Thu Nov 26) looks calm. Hourly forecast: clear to sunny, no rain, 1 to 3 C. Wind is northwest 5 knots at 6-7 am, then southwest 8 knots (15 km/h) from 8 am to noon. The marine forecast for the Grand Manan area has no warnings. It says wind is light, becoming east 10 to 15 knots Thursday evening. Tides: low 0.9 m at 6:20 am, rising to high 8.5 m at 12:28 pm. Expect strong tidal currents in the harbour and Bay of Fundy, so plan around them. Sunrise is 7:37 am. Conditions look fine for a small boat in the morning, but the wind picks up in the evening, so be back early. Wear a life jacket and check the forecast again before you leave.",
+   "missing": [
+    [
+     "looks good"
+    ],
+    [
+     "06:20"
+    ]
+   ],
+   "unsupported": [
+    {
+     "kind": "place",
+     "text": "Fundy",
+     "supported": false,
+     "support": "not in any tool output",
+     "sentence": "Expect strong tidal currents in the harbour and Bay of Fundy, so plan around them"
+    }
+   ],
+   "claims": [
+    {
+     "kind": "date",
+     "text": "Nov 26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Tomorrow morning (Thu Nov 26) looks calm"
+    },
+    {
+     "kind": "quantity",
+     "text": "5 knots",
+     "supported": true,
+     "support": "matches a tool output after unit conversion",
+     "sentence": "Wind is northwest 5 knots at 6-7 am, then southwest 8 knots (15 km/h) from 8 am to noon"
+    },
+    {
+     "kind": "quantity",
+     "text": "8 knots",
+     "supported": true,
+     "support": "matches a tool output after unit conversion",
+     "sentence": "Wind is northwest 5 knots at 6-7 am, then southwest 8 knots (15 km/h) from 8 am to noon"
+    },
+    {
+     "kind": "quantity",
+     "text": "15 km/h",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Wind is northwest 5 knots at 6-7 am, then southwest 8 knots (15 km/h) from 8 am to noon"
+    },
+    {
+     "kind": "time",
+     "text": "7 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Wind is northwest 5 knots at 6-7 am, then southwest 8 knots (15 km/h) from 8 am to noon"
+    },
+    {
+     "kind": "time",
+     "text": "8 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Wind is northwest 5 knots at 6-7 am, then southwest 8 knots (15 km/h) from 8 am to noon"
+    },
+    {
+     "kind": "quantity",
+     "text": "10 knots",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "It says wind is light, becoming east 10 to 15 knots Thursday evening"
+    },
+    {
+     "kind": "quantity",
+     "text": "15 knots",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "It says wind is light, becoming east 10 to 15 knots Thursday evening"
+    },
+    {
+     "kind": "quantity",
+     "text": "0.9 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tides: low 0.9 m at 6:20 am, rising to high 8.5 m at 12:28 pm"
+    },
+    {
+     "kind": "quantity",
+     "text": "8.5 m",
+     "supported": true,
+     "support": "matches a tool output",
+     "sentence": "Tides: low 0.9 m at 6:20 am, rising to high 8.5 m at 12:28 pm"
+    },
+    {
+     "kind": "time",
+     "text": "6:20 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tides: low 0.9 m at 6:20 am, rising to high 8.5 m at 12:28 pm"
+    },
+    {
+     "kind": "time",
+     "text": "12:28 pm",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Tides: low 0.9 m at 6:20 am, rising to high 8.5 m at 12:28 pm"
+    },
+    {
+     "kind": "place",
+     "text": "Fundy",
+     "supported": false,
+     "support": "not in any tool output",
+     "sentence": "Expect strong tidal currents in the harbour and Bay of Fundy, so plan around them"
+    },
+    {
+     "kind": "time",
+     "text": "7:37 am",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "Sunrise is 7:37 am"
+    }
+   ],
+   "expect_abstain": false,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "trap-station-narnia",
+   "category": "trap",
+   "question": "What is the tide at Narnia Harbour tomorrow?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "find_stations"
+   ],
+   "answer": "I could not find a tide station called Narnia Harbour, or anything close to that name, including inactive stations. So I can't give you a tide for tomorrow. Could you check the spelling, or tell me a nearby town or a real harbour? I'll look that up.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "place",
+     "text": "Narnia Harbour",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "I could not find a tide station called Narnia Harbour, or anything close to that name, including inactive stations"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "trap-hilo-far-future",
+   "category": "trap",
+   "question": "When is high tide in Halifax on 2026-12-30?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide"
+   ],
+   "answer": "I could not get high tide times for Halifax on 2026-12-30. I used the Halifax station (code 00490), but the tide data available right now only covers 2026-11-24 to 2026-11-28, so that date is outside it. I won't guess. Please try again with a date in that window, or check the official Canadian Hydrographic Service tide tables.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "date",
+     "text": "2026-12-30",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "I could not get high tide times for Halifax on 2026-12-30"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I could not get high tide times for Halifax on 2026-12-30"
+    },
+    {
+     "kind": "date",
+     "text": "2026-11-24",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Halifax station (code 00490), but the tide data available right now only covers 2026-11-24 to 2026-11-28, so that date is outside it"
+    },
+    {
+     "kind": "date",
+     "text": "2026-11-28",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Halifax station (code 00490), but the tide data available right now only covers 2026-11-24 to 2026-11-28, so that date is outside it"
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Halifax station (code 00490), but the tide data available right now only covers 2026-11-24 to 2026-11-28, so that date is outside it"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I used the Halifax station (code 00490), but the tide data available right now only covers 2026-11-24 to 2026-11-28, so that date is outside it"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "trap-observed-old",
+   "category": "trap",
+   "question": "What was the observed water level in Vancouver on 2026-10-01?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_water_levels"
+   ],
+   "answer": "I couldn't get that. The observed water level data for the Vancouver station (07735) only covers 2026-11-24 to 2026-11-25 right now, so there is no data for 2026-10-01. I can give you recent observed levels from that window instead if you'd like.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "date",
+     "text": "2026-11-24",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The observed water level data for the Vancouver station (07735) only covers 2026-11-24 to 2026-11-25 right now, so there is no data for 2026-10-01"
+    },
+    {
+     "kind": "date",
+     "text": "2026-11-25",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The observed water level data for the Vancouver station (07735) only covers 2026-11-24 to 2026-11-25 right now, so there is no data for 2026-10-01"
+    },
+    {
+     "kind": "date",
+     "text": "2026-10-01",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "The observed water level data for the Vancouver station (07735) only covers 2026-11-24 to 2026-11-25 right now, so there is no data for 2026-10-01"
+    },
+    {
+     "kind": "code",
+     "text": "07735",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The observed water level data for the Vancouver station (07735) only covers 2026-11-24 to 2026-11-25 right now, so there is no data for 2026-10-01"
+    },
+    {
+     "kind": "place",
+     "text": "Vancouver",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The observed water level data for the Vancouver station (07735) only covers 2026-11-24 to 2026-11-25 right now, so there is no data for 2026-10-01"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "trap-wind-far",
+   "category": "trap",
+   "question": "How windy will it be in Halifax on 2026-12-05?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_hourly_weather"
+   ],
+   "answer": "I can't say how windy it will be on 2026-12-05. The wind forecast for Halifax (station 00490) only covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST, and the marine forecast only looks about a day or so ahead. I'd have to guess, and I won't. Check again closer to the date, or ask me about the next 24 hours.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "date",
+     "text": "2026-12-05",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "I can't say how windy it will be on 2026-12-05"
+    },
+    {
+     "kind": "time",
+     "text": "22:00 AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The wind forecast for Halifax (station 00490) only covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST, and the marine forecast only looks about a day or so ahead"
+    },
+    {
+     "kind": "time",
+     "text": "21:00 AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "The wind forecast for Halifax (station 00490) only covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST, and the marine forecast only looks about a day or so ahead"
+    },
+    {
+     "kind": "date",
+     "text": "2026-11-25",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The wind forecast for Halifax (station 00490) only covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST, and the marine forecast only looks about a day or so ahead"
+    },
+    {
+     "kind": "date",
+     "text": "2026-11-26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The wind forecast for Halifax (station 00490) only covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST, and the marine forecast only looks about a day or so ahead"
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The wind forecast for Halifax (station 00490) only covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST, and the marine forecast only looks about a day or so ahead"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "The wind forecast for Halifax (station 00490) only covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST, and the marine forecast only looks about a day or so ahead"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "trap-waves",
+   "category": "trap",
+   "question": "How big will the waves be in Halifax tomorrow?",
+   "tool_ok": false,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_marine_forecast"
+   ],
+   "answer": "I can't give wave heights. None of my tools report waves or sea state. For Halifax (station 00490, Halifax Harbour and Approaches), Environment Canada's marine forecast issued 20:00 AST says wind will be light tonight and Thursday. It lists no warnings. Low tonight is minus 3 and high Thursday is plus 4. Light wind usually means small waves in the harbour, but that is my inference, not a forecast. For actual wave heights, check Environment Canada's marine forecast or a wave buoy report.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "time",
+     "text": "20:00 AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "For Halifax (station 00490, Halifax Harbour and Approaches), Environment Canada's marine forecast issued 20:00 AST says wind will be light tonight and Thursday"
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "For Halifax (station 00490, Halifax Harbour and Approaches), Environment Canada's marine forecast issued 20:00 AST says wind will be light tonight and Thursday"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "dev",
+   "passed": false
+  },
+  {
+   "id": "trap-water-temperature",
+   "category": "trap",
+   "question": "What is the water temperature in Vancouver?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [],
+   "answer": "I can't tell you the water temperature in Vancouver. My tools only cover tide and water levels, tide predictions, and marine and hourly weather forecasts (wind, air temperature). None of them report sea water temperature. Environment Canada or Fisheries and Oceans Canada publish that data. I can give you Vancouver tide times or the marine forecast if that helps.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "place",
+     "text": "Vancouver",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "I can't tell you the water temperature in Vancouver"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "trap-marine-inland",
+   "category": "trap",
+   "question": "What is the marine forecast for Winnipeg?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "find_stations"
+   ],
+   "answer": "I can't give you a marine forecast for Winnipeg. I searched for a Winnipeg station, including inactive ones, and found none. Winnipeg is inland, and these tools only cover tide gauge stations on the coast, so there is no marine forecast for it. If you tell me a coastal place, such as Halifax or Vancouver, I can look that up.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "place",
+     "text": "Winnipeg",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "I can't give you a marine forecast for Winnipeg"
+    },
+    {
+     "kind": "place",
+     "text": "Winnipeg",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "I searched for a Winnipeg station, including inactive ones, and found none"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "dev",
+   "passed": true
+  },
+  {
+   "id": "heldout-sea-ice",
+   "category": "trap",
+   "question": "Is the sea ice thick enough to walk on near Churchill?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations"
+   ],
+   "answer": "I can't tell you that. My tools only cover tide and water levels and weather forecasts. They have no sea ice thickness or ice condition data. I found the Churchill station (05010, Manitoba), but it doesn't report ice. Please don't judge ice safety from tide data. Check the Canadian Ice Service and ask local authorities, such as Parks Canada or local guides, before going on the ice.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "place",
+     "text": "Churchill",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I found the Churchill station (05010, Manitoba), but it doesn't report ice"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "heldout",
+   "passed": true
+  },
+  {
+   "id": "heldout-future-year",
+   "category": "trap",
+   "question": "Will the tide be higher than 5 metres in Halifax on 2027-01-15?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "next_high_low_tide"
+   ],
+   "answer": "I can't say. I looked up the Halifax station (00490), but its tide predictions only cover 2026-11-24 to 2026-11-28 here, so 2027-01-15 is outside the data I can reach. I won't guess a height. Try again closer to that date, or check the official Canadian Hydrographic Service tide tables for Halifax.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "date",
+     "text": "2026-11-24",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I looked up the Halifax station (00490), but its tide predictions only cover 2026-11-24 to 2026-11-28 here, so 2027-01-15 is outside the data I can reach"
+    },
+    {
+     "kind": "date",
+     "text": "2026-11-28",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I looked up the Halifax station (00490), but its tide predictions only cover 2026-11-24 to 2026-11-28 here, so 2027-01-15 is outside the data I can reach"
+    },
+    {
+     "kind": "date",
+     "text": "2027-01-15",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "I looked up the Halifax station (00490), but its tide predictions only cover 2026-11-24 to 2026-11-28 here, so 2027-01-15 is outside the data I can reach"
+    },
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I looked up the Halifax station (00490), but its tide predictions only cover 2026-11-24 to 2026-11-28 here, so 2027-01-15 is outside the data I can reach"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I looked up the Halifax station (00490), but its tide predictions only cover 2026-11-24 to 2026-11-28 here, so 2027-01-15 is outside the data I can reach"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "Try again closer to that date, or check the official Canadian Hydrographic Service tide tables for Halifax."
+    }
+   ],
+   "expect_abstain": true,
+   "split": "heldout",
+   "passed": true
+  },
+  {
+   "id": "heldout-wind-yesterday",
+   "category": "trap",
+   "question": "What was the wind in Saint John yesterday?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "get_hourly_weather"
+   ],
+   "answer": "I can't tell you yesterday's wind in Saint John. I looked at the Saint John station (00065). My wind tool only has a forecast, and it covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST. It has no past wind records. I can give you the forecast wind for that window, or yesterday's observed water levels and tides at this station, if either would help.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "place",
+     "text": "Saint John",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I can't tell you yesterday's wind in Saint John"
+    },
+    {
+     "kind": "code",
+     "text": "00065",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I looked at the Saint John station (00065)"
+    },
+    {
+     "kind": "place",
+     "text": "Saint John",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I looked at the Saint John station (00065)"
+    },
+    {
+     "kind": "time",
+     "text": "22:00 AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "My wind tool only has a forecast, and it covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST"
+    },
+    {
+     "kind": "time",
+     "text": "21:00 AST",
+     "supported": true,
+     "support": "matches a time in a tool output",
+     "sentence": "My wind tool only has a forecast, and it covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST"
+    },
+    {
+     "kind": "date",
+     "text": "2026-11-25",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "My wind tool only has a forecast, and it covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST"
+    },
+    {
+     "kind": "date",
+     "text": "2026-11-26",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "My wind tool only has a forecast, and it covers 2026-11-25 22:00 AST to 2026-11-26 21:00 AST"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "heldout",
+   "passed": true
+  },
+  {
+   "id": "heldout-tidal-streams",
+   "category": "trap",
+   "question": "How strong are the tidal streams in Halifax Harbour?",
+   "tool_ok": false,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations"
+   ],
+   "answer": "I can't say. My tools give water levels, tide predictions and weather, but not tidal stream (current) speeds. I found the Halifax station (00490), but I have no tool that reads current data from it, so I won't guess a figure. For stream strength in Halifax Harbour, check the Canadian Hydrographic Service current tables or the Sailing Directions. I can give you Halifax high and low tide times and heights if that helps.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "code",
+     "text": "00490",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I found the Halifax station (00490), but I have no tool that reads current data from it, so I won't guess a figure"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax",
+     "supported": true,
+     "support": "in a tool output",
+     "sentence": "I found the Halifax station (00490), but I have no tool that reads current data from it, so I won't guess a figure"
+    },
+    {
+     "kind": "place",
+     "text": "Halifax Harbour",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "For stream strength in Halifax Harbour, check the Canadian Hydrographic Service current tables or the Sailing Directions"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "heldout",
+   "passed": false
+  },
+  {
+   "id": "heldout-kayak-unknown",
+   "category": "trap",
+   "question": "Is tomorrow morning a good time to launch a kayak at Lake Wobegon?",
+   "tool_ok": true,
+   "answer_ok": true,
+   "grounded": true,
+   "tools_called": [
+    "find_stations",
+    "find_stations"
+   ],
+   "answer": "I could not find a station for Lake Wobegon. I searched by name, including inactive stations, and found nothing. So I cannot check tides, water levels or wind there, and I will not guess whether tomorrow morning is a good time. If you tell me a real place on the Canadian coast or a nearby tide gauge, I can check the tides and the marine and hourly wind forecast for it.",
+   "missing": [],
+   "unsupported": [],
+   "claims": [
+    {
+     "kind": "place",
+     "text": "Lake Wobegon",
+     "supported": true,
+     "support": "stated in the question",
+     "sentence": "I could not find a station for Lake Wobegon"
+    }
+   ],
+   "expect_abstain": true,
+   "split": "heldout",
+   "passed": true
+  }
+ ]
+}
