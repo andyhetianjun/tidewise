@@ -1,14 +1,12 @@
 # Tidewise
 
-An MCP server that gives AI assistants tools over real Canadian tide and water level data, plus a small agent CLI and an eval suite to check that the tools get used correctly.
-
-I wanted to see how much it takes to make a public data API pleasant for a model to use: clear tool descriptions, strict inputs, error messages that say what to do next, and a way to measure whether a model picks the right tool.
+I built a small server that lets an AI assistant look up real Canadian tide and water level data, plus a command line agent and a set of test questions that check its answers. I did it because my summer 2026 co-op at Fisheries and Oceans Canada had me working with ocean data, which made me curious about the tide data they publish. I also wanted to learn how to give an AI assistant real tools (using MCP, the Model Context Protocol, a standard way for an assistant to call outside programs) and how to check that it uses them correctly.
 
 [![CI](https://github.com/andyhetianjun/tidewise/actions/workflows/ci.yml/badge.svg)](https://github.com/andyhetianjun/tidewise/actions/workflows/ci.yml)
 
 ## What it does
 
-Five MCP tools, backed by the Canadian Hydrographic Service's public water level API (IWLS):
+You can ask "When is high tide in Halifax tomorrow?" and the assistant picks the right tool, fetches the data and answers with times and heights. The data comes from the public water level service run by the Canadian Hydrographic Service (called IWLS). The server offers five tools:
 
 | Tool | Use it for |
 | --- | --- |
@@ -18,29 +16,21 @@ Five MCP tools, backed by the Canadian Hydrographic Service's public water level
 | `get_water_levels` | Observed (measured) water levels over a time range |
 | `compare_observed_vs_predicted` | Mean, RMS and largest gap between measured and predicted |
 
-Things I cared about:
+## How to use it
 
-- Typed inputs with docstrings that become the tool descriptions the model sees.
-- Validation with helpful errors: bad coordinates, ranges over 7 days, unknown stations, stations that do not report a series, and a station that is listed but silent (Halifax had no observed readings in my sample).
-- A date like `2026-11-26` means that whole day in the station's local time, so "tomorrow" works. Results come back in UTC and local time.
-- On-disk cache (24 hours for predictions, 10 minutes for observed data) and a rate limit of one request per second, with retries on 429 and 5xx that respect `Retry-After`.
-
-## Run it
-
-You need [uv](https://docs.astral.sh/uv/).
+You need [uv](https://docs.astral.sh/uv/), a Python package tool. Everything below works offline, using a small sample of real data saved in the repo.
 
 ```bash
 git clone https://github.com/andyhetianjun/tidewise
 cd tidewise
 uv sync
 
-# Everything below works offline, using the committed sample data
 uv run pytest -q
 uv run tidewise eval
 uv run tidewise ask "When is high tide in Halifax tomorrow?" --offline --model fake -v
 ```
 
-Output of that last command:
+The last command prints:
 
 ```
 [tool] find_stations {'query': 'Halifax', 'limit': 3}
@@ -48,18 +38,18 @@ Output of that last command:
 Tides at Halifax on 2026-11-26: low tide at 02:47 AST (0.353 m); high tide at 08:36 AST (1.977 m); low tide at 15:33 AST (-0.02 m); high tide at 21:25 AST (1.747 m).
 ```
 
-Live data and a real model:
+To use live data and a real model, set an API key (only the agent needs one, not the server):
 
 ```bash
-export ANTHROPIC_API_KEY=...        # only needed for the agent, not the server
+export ANTHROPIC_API_KEY=...
 uv run tidewise ask "When is high tide in Halifax tomorrow?" -v
 ```
 
-The agent calls `claude-sonnet-5-5` with the Anthropic SDK. Without a key, `ask` falls back to the offline rule-based model and says so.
+Without a key, `ask` falls back to a simple offline model and says so.
 
 ### Use the server from an MCP client
 
-The server speaks MCP over stdio. Most clients take a config like this one (Claude Desktop uses `mcpServers` in `claude_desktop_config.json`; other clients are similar):
+The server talks MCP over standard input and output. Most MCP clients take a config like this one:
 
 ```json
 {
@@ -72,36 +62,20 @@ The server speaks MCP over stdio. Most clients take a config like this one (Clau
 }
 ```
 
-Add `"env": { "TIDEWISE_OFFLINE": "1" }` to use the bundled sample instead of the live API.
+Add `"env": { "TIDEWISE_OFFLINE": "1" }` to use the bundled sample instead of the live service.
 
-With Docker (I wrote the Dockerfile but have not built the image on my own machine yet):
+There is also a Dockerfile (`docker build -t tidewise .`). I have not built it on my own machine; the GitHub Actions workflow builds it on every push.
 
-```bash
-docker build -t tidewise .
-docker run -i --rm -v tidewise-cache:/cache tidewise
-```
+## Design
 
-and use `"command": "docker", "args": ["run", "-i", "--rm", "tidewise"]` in the client config.
+- Tool inputs are typed and strict, and the docstrings become the descriptions the model reads. Errors say what to do next: bad coordinates, ranges over 7 days, unknown stations, stations that do not report a series, and a station that is listed but silent (Halifax had no observed readings in my sample).
+- A date like `2026-11-26` means that whole day in the station's local time, so "tomorrow" works. Results come back in UTC and local time.
+- Responses are cached on disk (24 hours for predictions, 10 minutes for observed data). Requests are limited to one per second, with retries on 429 and 5xx errors that respect `Retry-After`.
+- The tool logic is plain Python methods, kept separate from the MCP wrapper, so the data source can be swapped between the live service and the saved sample.
 
-## How it works
+More detail is in [docs/design.md](docs/design.md).
 
-```mermaid
-flowchart LR
-    Q[question] --> A[agent loop]
-    A <-->|messages| M[Claude / offline model]
-    A -->|MCP tool calls| S[tidewise MCP server]
-    S --> T[TideService]
-    T --> L[IWLS client: cache, rate limit, retries]
-    T --> F[offline sample files]
-    L --> API[(api-iwls.dfo-mpo.gc.ca)]
-```
-
-- `service.py` has the tool logic as plain methods. `server.py` wraps them as MCP tools and turns my own errors into tool errors the client can read.
-- The data source is swappable. `iwls.py` talks to the API; `fixtures.py` reads the committed sample. Tests and the eval use the sample.
-- The agent talks to the server through a real MCP client connected in-process, so it sees exactly the tool list and schemas that any other client would.
-- High and low tide labels: the API returns tide events without saying which are highs, so the tool fetches a little before the requested time and compares each event with its neighbour.
-
-## Evals
+## Checking the answers
 
 `src/tidewise/eval_cases.json` has 21 questions. Each one names the tool that should answer it, the arguments that must match (for example the station), and facts the final answer must contain, such as a time or a height. I worked those facts out from the sample data by hand. Two cases are deliberately awkward: a station that reports no observed data, and a question that needs no tool at all.
 
@@ -119,50 +93,43 @@ answer correct: 21/21 (100%)
 both:           21/21 (100%)
 ```
 
-**Read that score carefully.** The offline model is a keyword matcher I wrote, not a language model. It was built against these same questions, so 100% only shows that the tools, the loop, the answer checks and the sample data fit together. There is a test that a wrong model scores below 20%, so the checks can fail. I have not run the eval with Claude because I had no API key while building this. To measure a real model:
+Read that score carefully. The offline model is a keyword matcher I wrote, not a language model, and I built it against these same questions. So 100% only shows that the tools, the loop, the answer checks and the sample data fit together. A test confirms a deliberately wrong model scores below 20%, so the checks can fail. I have not run the eval with Claude because I had no API key while building this, so that part is untested. To measure a real model:
 
 ```bash
 ANTHROPIC_API_KEY=... uv run tidewise eval --model anthropic -v
 ```
 
-That run is the number that would mean something. Answer checks accept several spellings of a time or number (for example `08:36` or `8:36`), but a model may still phrase things in a way I did not allow for.
-
-## Data and the offline sample
-
-Data comes from Fisheries and Oceans Canada, Canadian Hydrographic Service, through the public [IWLS API](https://api-iwls.dfo-mpo.gc.ca). Please check their terms before heavy use.
-
-`src/tidewise/data/` holds a 168 KB sample of real responses: the list of operating stations (135), and for Halifax, Vancouver, Saint John, Charlottetown and Tofino, predictions and high/low events for 2026-11-24 to 2026-11-29 plus observed levels up to 2026-11-25 12:00 UTC. Offline mode pretends it is that moment, so "tomorrow" is 2026-11-26. Refresh it with `uv run python scripts/fetch_samples.py`; the eval answers would then need checking again.
-
 ## Limits
 
 - Time zones come from the station's province code, so a few stations near borders may show the wrong local zone.
-- Predictions have no weather in them. In the sample, observed water at Vancouver was on average 0.52 m above prediction on 2026-11-24; the comparison tool reports that, but it cannot tell you why.
-- Ranges are capped at 7 days and 200 points per call to keep results small enough for a model to read.
+- Predictions have no weather in them. In the sample, observed water at Vancouver was on average 0.52 m above prediction on 2026-11-24; the comparison tool reports that, but it cannot say why.
+- Ranges are capped at 7 days and 200 points per call, to keep results small enough for a model to read.
 - Offline mode only knows five stations and five days. Outside that you get an error saying so.
 
-## What I'd do next
+## What I would do next
 
-- Run the eval against Claude and report the real score, and compare a few phrasings per question.
-- Add buoy data (Environment Canada or NOAA NDBC) for wave height.
+- Run the eval against Claude and report the real score, with a few phrasings per question.
+- Add buoy data for wave height.
 - Add the current speed series some stations have.
-- Serve over streamable HTTP as well as stdio.
+- Serve over streamable HTTP as well as standard input and output.
 - Look up time zones from coordinates instead of provinces.
 
-## Project layout
+## Architecture and tests
 
+```mermaid
+flowchart LR
+    Q[question] --> A[agent loop]
+    A <-->|messages| M[Claude / offline model]
+    A -->|MCP tool calls| S[tidewise MCP server]
+    S --> T[TideService]
+    T --> L[IWLS client: cache, rate limit, retries]
+    T --> F[offline sample files]
+    L --> API[(api-iwls.dfo-mpo.gc.ca)]
 ```
-src/tidewise/
-  server.py       MCP tool definitions
-  service.py      tool logic
-  stations.py     name and distance search
-  iwls.py         live API client
-  fixtures.py     offline sample reader
-  agent.py        tool-calling loop, Anthropic model wrapper
-  fake.py         scripted and rule-based offline models
-  evaluation.py   scoring
-  eval_cases.json the questions
-tests/            pytest suite
-scripts/          fetch_samples.py
-```
+
+- The agent connects to the server through a real MCP client running in the same process, so it sees the same tool list and schemas any other client would.
+- Tests: 58 pass (`uv run pytest -q`). Lint and format checks pass (`uv run ruff check .`, `uv run ruff format --check .`).
+- CI (GitHub Actions) runs lint, format check, tests, the offline eval and a Docker build.
+- Data comes from Fisheries and Oceans Canada through the public [IWLS API](https://api-iwls.dfo-mpo.gc.ca). Please check their terms before heavy use.
 
 MIT licensed.
