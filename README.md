@@ -64,6 +64,7 @@ The server turns public tide and weather data into seven tools. The assistant pi
 - [Weather alongside tides](docs/weather.md): marine forecasts and hourly weather from Environment Canada, and questions that need both.
 - [Grounded answers](docs/grounded-answers.md): a check that every time, height and wind speed in an answer came from a tool, plus questions where the right answer is "I don't know".
 - [Eval runner](docs/eval-runner.md): each eval case in its own process, in parallel, with timeouts, retries and a clickable HTML report.
+- [Tracing](docs/tracing.md): OpenTelemetry traces of each answer (model replies and tool calls, with tokens when known) written to a local file or sent to Jaeger, and a waterfall viewer on the demo site.
 
 ## What it does
 

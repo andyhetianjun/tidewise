@@ -1,0 +1,13 @@
+# Jaeger for looking at tidewise traces in a browser.
+#
+#   docker compose -f docker-compose.tracing.yml up -d
+#   OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 tidewise --trace ask "..." --offline --model fake
+#   open http://localhost:16686   (service: tidewise)
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:1.62.0
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686" # the web page
+      - "4318:4318" # OTLP over HTTP

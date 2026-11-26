@@ -17,6 +17,8 @@ jobs:
       - run: uv run pytest -q
       - name: Offline eval
         run: uv run tidewise eval
+      - name: Check the Jaeger compose file
+        run: docker compose -f docker-compose.tracing.yml config -q
       - name: Parallel eval run
         run: uv run tidewise run-evals --jobs 2 --out eval-report
 
