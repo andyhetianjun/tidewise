@@ -29,7 +29,7 @@ def default_source() -> DataSource:
 
 def create_server(source: DataSource | None = None) -> MCPServer:
     service = TideService(source or default_source())
-    mcp = MCPServer("tidewise", instructions=INSTRUCTIONS)
+    mcp = MCPServer("tidewise", instructions=INSTRUCTIONS, log_level="WARNING")
 
     def run(fn, **kwargs):  # noqa: ANN001, ANN003, ANN202
         try:
