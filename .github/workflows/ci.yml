@@ -17,6 +17,8 @@ jobs:
       - run: uv run pytest -q
       - name: Offline eval
         run: uv run tidewise eval
+      - name: Parallel eval run
+        run: uv run tidewise run-evals --jobs 2 --out eval-report
 
   docker:
     runs-on: ubuntu-latest

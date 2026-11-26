@@ -159,6 +159,13 @@ def main(argv: list[str] | None = None) -> int:
     rv.add_argument("--only", nargs="+", help="run only cases whose id contains one of these")
     rv.add_argument("-v", "--verbose", action="store_true", help="print each case as it finishes")
 
+    site = sub.add_parser("site", help="build the static demo site from real eval runs")
+    site.add_argument("--out", default="site", help="folder to write")
+    site.add_argument("--jobs", type=int, default=min(8, os.cpu_count() or 2))
+    site.add_argument(
+        "--bench", action="store_true", help="also time the cases one at a time, for comparison"
+    )
+
     args = p.parse_args(argv)
     logging.getLogger().setLevel(
         logging.ERROR
@@ -172,6 +179,12 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "ask":
         return asyncio.run(_ask(args))
+    if args.cmd == "site":
+        from .site import build_site
+
+        asyncio.run(build_site(Path(args.out), jobs=args.jobs, bench=args.bench))
+        print(f"site written to {args.out}/index.html")
+        return 0
     if args.cmd == "run-evals":
         return asyncio.run(_run_evals(args))
     return asyncio.run(_eval(args))
