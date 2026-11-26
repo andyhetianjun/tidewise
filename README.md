@@ -1,12 +1,49 @@
 # Tidewise
 
-**Try it:** [andyhetianjun.github.io/tidewise](https://andyhetianjun.github.io/tidewise/) (a static demo: eval report with a trace for every case, and recorded example conversations)
-
-![The demo home page](docs/img/demo.png)
-
 I built a small server that lets an AI assistant look up real Canadian tide and water level data, plus a command line agent and a set of test questions that check its answers. I did it because my summer 2026 co-op at Fisheries and Oceans Canada had me working with ocean data, which made me curious about the tide data they publish. I also wanted to learn how to give an AI assistant real tools (using MCP, the Model Context Protocol, a standard way for an assistant to call outside programs) and how to check that it uses them correctly.
 
+**Try it:** [andyhetianjun.github.io/tidewise](https://andyhetianjun.github.io/tidewise/). It has a Today page (tides and marine weather for five stations, rebuilt every 6 hours), the eval reports with a trace for every case, and example conversations step by step (from the offline model).
+
 [![CI](https://github.com/andyhetianjun/tidewise/actions/workflows/ci.yml/badge.svg)](https://github.com/andyhetianjun/tidewise/actions/workflows/ci.yml)
+
+![A short clip of the demo site](docs/img/demo.gif)
+
+## Install in one line
+
+You need [uv](https://docs.astral.sh/uv/), a Python package tool. Nothing else to install, and no account or API key:
+
+```bash
+uvx --from git+https://github.com/andyhetianjun/tidewise tidewise ask "When is high tide in Halifax tomorrow?" --offline --model fake -v
+```
+
+To add the tools to an MCP client (an app that lets an assistant call tools), put this in its config:
+
+```json
+{
+  "mcpServers": {
+    "tidewise": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/andyhetianjun/tidewise", "tidewise", "serve"]
+    }
+  }
+}
+```
+
+Add `"env": { "TIDEWISE_OFFLINE": "1" }` to use the bundled sample instead of the live service. I checked both commands from an empty folder against a local copy of the repo (a real MCP client listed the seven tools and called one). I have not tried any particular desktop MCP app.
+
+## How it works
+
+```mermaid
+flowchart LR
+    Q[question] --> A[assistant]
+    A -->|calls tools over MCP| S[tidewise server]
+    S --> D[(tide data and marine weather)]
+    D --> S --> A
+    A --> R[answer]
+    R --> C{{checks: right tools, expected facts, every number came from a tool}}
+```
+
+The server turns public tide and weather data into seven tools. The assistant picks tools, reads what they return and writes the answer. The checks then score it. More detail is under Design and Architecture below.
 
 ## Features
 
@@ -59,9 +96,9 @@ uv run tidewise ask "When is high tide in Halifax tomorrow?" -v
 
 Without a key, `ask` falls back to a simple offline model and says so.
 
-### Use the server from an MCP client
+### Use a local copy from an MCP client
 
-The server talks MCP over standard input and output. Most MCP clients take a config like this one:
+If you cloned the repo, point the client at the folder instead:
 
 ```json
 {
@@ -146,8 +183,8 @@ flowchart LR
 ```
 
 - The agent connects to the server through a real MCP client running in the same process, so it sees the same tool list and schemas any other client would.
-- Tests: 122 pass (`uv run pytest -q`). Lint and format checks pass (`uv run ruff check .`, `uv run ruff format --check .`).
-- CI (GitHub Actions) runs lint, format check, tests, the offline eval and a Docker build. A second workflow builds the demo site and publishes it to GitHub Pages (`uv run tidewise site --out site`).
+- Tests: 132 pass (`uv run pytest -q`). Lint and format checks pass (`uv run ruff check .`, `uv run ruff format --check .`).
+- CI (GitHub Actions) runs lint, format check, tests, the offline eval and a Docker build. A second workflow builds the demo site and publishes it to GitHub Pages, on every push to main and every 6 hours (`uv run tidewise site --out site --live`). The Today page fetches live data while the site is built, shows when it was last updated, and falls back to the bundled sample for any part that does not answer; nothing fetched is committed.
 - Tide data comes from Fisheries and Oceans Canada through the public [IWLS API](https://api-iwls.dfo-mpo.gc.ca). Weather comes from Environment and Climate Change Canada through the [MSC GeoMet API](https://api.weather.gc.ca), under the Open Government Licence - Canada. Please check their terms before heavy use.
 
 MIT licensed.
