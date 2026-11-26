@@ -1,12 +1,22 @@
 # Tidewise
 
+**Try it:** [andyhetianjun.github.io/tidewise](https://andyhetianjun.github.io/tidewise/) (a static demo: eval report with a trace for every case, and recorded example conversations)
+
+![The demo home page](docs/img/demo.png)
+
 I built a small server that lets an AI assistant look up real Canadian tide and water level data, plus a command line agent and a set of test questions that check its answers. I did it because my summer 2026 co-op at Fisheries and Oceans Canada had me working with ocean data, which made me curious about the tide data they publish. I also wanted to learn how to give an AI assistant real tools (using MCP, the Model Context Protocol, a standard way for an assistant to call outside programs) and how to check that it uses them correctly.
 
 [![CI](https://github.com/andyhetianjun/tidewise/actions/workflows/ci.yml/badge.svg)](https://github.com/andyhetianjun/tidewise/actions/workflows/ci.yml)
 
+## Features
+
+- [Weather alongside tides](docs/weather.md): marine forecasts and hourly weather from Environment Canada, and questions that need both.
+- [Grounded answers](docs/grounded-answers.md): a check that every time, height and wind speed in an answer came from a tool, plus questions where the right answer is "I don't know".
+- [Eval runner](docs/eval-runner.md): each eval case in its own process, in parallel, with timeouts, retries and a clickable HTML report.
+
 ## What it does
 
-You can ask "When is high tide in Halifax tomorrow?" and the assistant picks the right tool, fetches the data and answers with times and heights. The data comes from the public water level service run by the Canadian Hydrographic Service (called IWLS). The server offers five tools:
+You can ask "When is high tide in Halifax tomorrow?" and the assistant picks the right tool, fetches the data and answers with times and heights. The data comes from the public water level service run by the Canadian Hydrographic Service (called IWLS). The server offers seven tools:
 
 | Tool | Use it for |
 | --- | --- |
@@ -15,6 +25,8 @@ You can ask "When is high tide in Halifax tomorrow?" and the assistant picks the
 | `get_tide_predictions` | Predicted water level curve over a time range |
 | `get_water_levels` | Observed (measured) water levels over a time range |
 | `compare_observed_vs_predicted` | Mean, RMS and largest gap between measured and predicted |
+| `get_marine_forecast` | Marine weather text and warnings for the water at a station (Environment Canada) |
+| `get_hourly_weather` | Hourly wind, temperature and rain chance near a station, about the next 24 hours |
 
 ## How to use it
 
@@ -77,39 +89,45 @@ More detail is in [docs/design.md](docs/design.md).
 
 ## Checking the answers
 
-`src/tidewise/eval_cases.json` has 21 questions. Each one names the tool that should answer it, the arguments that must match (for example the station), and facts the final answer must contain, such as a time or a height. I worked those facts out from the sample data by hand. Two cases are deliberately awkward: a station that reports no observed data, and a question that needs no tool at all.
+`src/tidewise/eval_cases.json` has 43 questions: 18 about tides, 5 about weather, 5 that need tides and weather together, and 15 traps where the right answer is to say it does not know. Each question names the tool that should answer it, the arguments that must match, and facts the answer must contain. I worked those facts out from the sample data by hand. Three checks run on every case: right tools, answer as expected, and [grounded](docs/grounded-answers.md) (nothing in the answer that no tool returned). Five traps are held out: I wrote them after the offline model was finished.
 
 ```bash
-uv run tidewise eval        # offline, rule-based model
-uv run tidewise eval -v     # show every case
+uv run tidewise eval                       # offline, rule-based model, in one process
+uv run tidewise eval --model sloppy        # a careless stand-in, to see the checks catch it
+uv run tidewise run-evals --out report     # one process per case, in parallel, HTML report
 ```
 
 Measured on my machine (offline sample, rule-based model):
 
 ```
-cases: 21
-tool selection: 21/21 (100%)
-answer correct: 21/21 (100%)
-both:           21/21 (100%)
+cases: 43
+tool selection: 42/43 (98%)
+answer correct: 43/43 (100%)
+grounded:       43/43 (100%)
+all three:      42/43 (98%)
+trap cases handled (said so, invented nothing): 15/15
+held-out cases, all three checks: 4/5
 ```
 
-Read that score carefully. The offline model is a keyword matcher I wrote, not a language model, and I built it against these same questions. So 100% only shows that the tools, the loop, the answer checks and the sample data fit together. A test confirms a deliberately wrong model scores below 20%, so the checks can fail. I have not run the eval with Claude because I had no API key while building this, so that part is untested. To measure a real model:
+The sloppy stand-in calls the right tools but pads answers and never says it does not know: 42/43 tools, 28/43 answers that contain the expected facts, but only 3/43 grounded and 0/15 traps handled.
+
+Read these scores carefully. The offline model is a keyword matcher I wrote, not a language model, and I built it against most of these questions. So the scores show that the tools, the loop, the checks and the runner fit together, and that the checks can fail. They say nothing about Claude. I have not run the eval with Claude because I had no API key while building this, so that part is untested. To measure a real model:
 
 ```bash
-ANTHROPIC_API_KEY=... uv run tidewise eval --model anthropic -v
+ANTHROPIC_API_KEY=... uv run tidewise run-evals --model anthropic
 ```
 
 ## Limits
 
 - Time zones come from the station's province code, so a few stations near borders may show the wrong local zone.
-- Predictions have no weather in them. In the sample, observed water at Vancouver was on average 0.52 m above prediction on 2026-11-24; the comparison tool reports that, but it cannot say why.
+- Tide predictions have no weather in them (the weather tools add forecasts, but only for about the next day). In the sample, observed water at Vancouver was on average 0.52 m above prediction on 2026-11-24; the comparison tool reports that, but it cannot say why.
 - Ranges are capped at 7 days and 200 points per call, to keep results small enough for a model to read.
-- Offline mode only knows five stations and five days. Outside that you get an error saying so.
+- Offline mode only knows five stations, five days of tides and about one day of weather. Outside that you get an error saying so.
 
 ## What I would do next
 
 - Run the eval against Claude and report the real score, with a few phrasings per question.
-- Add buoy data for wave height.
+- Add buoy data for wave height (a trap question today).
 - Add the current speed series some stations have.
 - Serve over streamable HTTP as well as standard input and output.
 - Look up time zones from coordinates instead of provinces.
@@ -128,8 +146,8 @@ flowchart LR
 ```
 
 - The agent connects to the server through a real MCP client running in the same process, so it sees the same tool list and schemas any other client would.
-- Tests: 58 pass (`uv run pytest -q`). Lint and format checks pass (`uv run ruff check .`, `uv run ruff format --check .`).
-- CI (GitHub Actions) runs lint, format check, tests, the offline eval and a Docker build.
-- Data comes from Fisheries and Oceans Canada through the public [IWLS API](https://api-iwls.dfo-mpo.gc.ca). Please check their terms before heavy use.
+- Tests: 122 pass (`uv run pytest -q`). Lint and format checks pass (`uv run ruff check .`, `uv run ruff format --check .`).
+- CI (GitHub Actions) runs lint, format check, tests, the offline eval and a Docker build. A second workflow builds the demo site and publishes it to GitHub Pages (`uv run tidewise site --out site`).
+- Tide data comes from Fisheries and Oceans Canada through the public [IWLS API](https://api-iwls.dfo-mpo.gc.ca). Weather comes from Environment and Climate Change Canada through the [MSC GeoMet API](https://api.weather.gc.ca), under the Open Government Licence - Canada. Please check their terms before heavy use.
 
 MIT licensed.
