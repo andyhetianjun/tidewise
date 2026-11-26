@@ -233,6 +233,7 @@ def render_home(
 tests. It needs no server and no API key. The answers come from the offline rule-based model
 (a keyword matcher, not a language model), run against a small sample of real data from
 Fisheries and Oceans Canada (tides) and Environment and Climate Change Canada (weather).
+The Today page, when present, is the one exception: it is fetched from the live services when the site is built.
 Built {escape(stamp)}.</div>
 
 <h2>What is in it</h2>
