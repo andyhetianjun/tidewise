@@ -1,0 +1,446 @@
+{
+ "now": "2026-11-25T12:00:00Z",
+ "cases": [
+  {
+   "id": "hilo-halifax-high-tomorrow",
+   "question": "When is high tide in Halifax tomorrow?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "08:36",
+     "8:36"
+    ],
+    [
+     "21:25",
+     "9:25"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "hilo-halifax-low-tomorrow",
+   "question": "What time is low tide in Halifax tomorrow?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "02:47",
+     "2:47"
+    ],
+    [
+     "15:33",
+     "3:33"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "hilo-saintjohn-tomorrow",
+   "question": "When is high tide in Saint John tomorrow?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "00065",
+     "Saint John"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "12:28"
+    ],
+    [
+     "00:10",
+     "12:10"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "hilo-charlottetown-tomorrow",
+   "question": "What are the tide times in Charlottetown tomorrow?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "01700",
+     "Charlottetown"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "12:22"
+    ],
+    [
+     "23:25",
+     "11:25"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "hilo-halifax-next-high",
+   "question": "When is the next high tide in Halifax?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "20:32",
+     "8:32"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "hilo-halifax-next-low",
+   "question": "When is the next low tide in Halifax?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "14:39",
+     "2:39"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "hilo-charlottetown-date",
+   "question": "When is low tide in Charlottetown on 2026-11-27?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "01700",
+     "Charlottetown"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "06:24",
+     "6:24"
+    ],
+    [
+     "18:45",
+     "6:45"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "pred-vancouver-tomorrow",
+   "question": "What are the predicted water levels in Vancouver tomorrow?",
+   "expected_tool": "get_tide_predictions",
+   "expected_args": {
+    "station": [
+     "07735",
+     "Vancouver"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "4.91"
+    ],
+    [
+     "0.01",
+     "0.015"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "pred-saintjohn-table",
+   "question": "Give me the tide table for Saint John tomorrow.",
+   "expected_tool": "get_tide_predictions",
+   "expected_args": {
+    "station": [
+     "00065",
+     "Saint John"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "8.43",
+     "8.426",
+     "8.4"
+    ],
+    [
+     "0.36"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "pred-halifax-date",
+   "question": "What are the predicted water levels in Halifax on 2026-11-27?",
+   "expected_tool": "get_tide_predictions",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "1.91"
+    ],
+    [
+     "0.04"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "obs-vancouver-yesterday",
+   "question": "What was the observed water level in Vancouver yesterday?",
+   "expected_tool": "get_water_levels",
+   "expected_args": {
+    "station": [
+     "07735",
+     "Vancouver"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "5.17",
+     "5.167"
+    ],
+    [
+     "0.71"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "obs-saintjohn-yesterday",
+   "question": "How high was the water in Saint John yesterday?",
+   "expected_tool": "get_water_levels",
+   "expected_args": {
+    "station": [
+     "00065",
+     "Saint John"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "8.41"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "obs-halifax-gap",
+   "question": "What was the observed water level in Halifax yesterday?",
+   "expected_tool": "get_water_levels",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "no observed",
+     "no data",
+     "not available",
+     "unavailable",
+     "offline",
+     "did not",
+     "could not",
+     "couldn't",
+     "unable",
+     "not report"
+    ]
+   ],
+   "note": "Halifax reports no observed data in the sample, so the right answer is that it is unavailable."
+  },
+  {
+   "id": "compare-saintjohn",
+   "question": "How did observed water levels compare with predictions in Saint John yesterday?",
+   "expected_tool": "compare_observed_vs_predicted",
+   "expected_args": {
+    "station": [
+     "00065",
+     "Saint John"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "0.08",
+     "0.079"
+    ],
+    [
+     "0.18"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "compare-vancouver",
+   "question": "How much did the observed water level differ from the prediction in Vancouver yesterday?",
+   "expected_tool": "compare_observed_vs_predicted",
+   "expected_args": {
+    "station": [
+     "07735",
+     "Vancouver"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "0.52"
+    ],
+    [
+     "0.64"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "compare-tofino-surge",
+   "question": "Was there a storm surge at Tofino yesterday? Compare observed with predicted.",
+   "expected_tool": "compare_observed_vs_predicted",
+   "expected_args": {
+    "station": [
+     "08615",
+     "Tofino"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "0.61"
+    ],
+    [
+     "0.75",
+     "0.749"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "stations-coords-halifax",
+   "question": "Which tide station is nearest to 44.6, -63.6?",
+   "expected_tool": "find_stations",
+   "expected_args": {
+    "latitude": {
+     "approx": 44.6,
+     "tol": 0.1
+    },
+    "longitude": {
+     "approx": -63.6,
+     "tol": 0.1
+    }
+   },
+   "answer_must_include": [
+    [
+     "Halifax"
+    ],
+    [
+     "6.7"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "stations-coords-victoria",
+   "question": "What is the closest tide gauge to 48.4, -123.4?",
+   "expected_tool": "find_stations",
+   "expected_args": {
+    "latitude": {
+     "approx": 48.4,
+     "tol": 0.1
+    },
+    "longitude": {
+     "approx": -123.4,
+     "tol": 0.1
+    }
+   },
+   "answer_must_include": [
+    [
+     "Victoria Harbour"
+    ],
+    [
+     "07120"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "stations-name-vancouver",
+   "question": "Which stations are near Vancouver?",
+   "expected_tool": "find_stations",
+   "expected_args": {
+    "query": [
+     "07735",
+     "Vancouver"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "Vancouver"
+    ],
+    [
+     "07735"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "unknown-place",
+   "question": "When is high tide in Atlantis?",
+   "expected_tool": "find_stations",
+   "expected_args": {
+    "query": [
+     "Atlantis"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "no station",
+     "not find",
+     "could not",
+     "couldn't",
+     "no tide",
+     "unable",
+     "don't have"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "no-tool-needed",
+   "question": "Why is the sky blue?",
+   "expected_tool": null,
+   "expected_args": {},
+   "answer_must_include": [
+    [
+     "tide",
+     "station",
+     "place",
+     "water",
+     "can't",
+     "cannot",
+     "only"
+    ]
+   ],
+   "note": "Off topic. The model should not call a tool."
+  }
+ ]
+}
