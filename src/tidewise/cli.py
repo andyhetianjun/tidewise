@@ -1,4 +1,4 @@
-"""Command line: tidewise serve | ask | eval."""
+"""Command line: tidewise serve | ask | eval | run-evals | site."""
 
 from __future__ import annotations
 
@@ -74,6 +74,52 @@ async def _eval(args: argparse.Namespace) -> int:
     return 0 if all(r.passed for r in dev) else 1
 
 
+async def _run_evals(args: argparse.Namespace) -> int:
+    from .evaluation import DEFAULT_CASES, load_cases
+    from .report import write_report
+    from .runner import run_cases
+
+    now, cases = load_cases(Path(args.cases) if args.cases else DEFAULT_CASES)
+    if args.model == "anthropic" and not os.environ.get("ANTHROPIC_API_KEY"):
+        sys.exit("ANTHROPIC_API_KEY is not set. Use --model fake to run offline.")
+    if args.only:
+        cases = [c for c in cases if any(part in c["id"] for part in args.only)]
+        if not cases:
+            sys.exit("No case id matches --only.")
+
+    def progress(run) -> None:  # noqa: ANN001
+        mark = "ok  " if run.passed else ("FAIL" if run.status == "ok" else run.status.upper())
+        extra = f" ({len(run.attempts)} tries)" if len(run.attempts) > 1 else ""
+        print(f"{mark} {run.case['id']} {run.duration_s:.2f}s{extra}", file=sys.stderr)
+
+    summary = await run_cases(
+        cases,
+        now,
+        model=args.model,
+        jobs=args.jobs,
+        timeout_s=args.timeout,
+        retries=args.retries,
+        latency_ms=args.latency_ms,
+        on_done=progress if args.verbose else None,
+    )
+    index = write_report(summary, Path(args.out))
+    n = summary.n
+    tool, _ = summary.rate("tool_ok")
+    ans, _ = summary.rate("answer_ok")
+    gro, _ = summary.rate("grounded")
+    print(f"cases: {n}   model: {args.model}   jobs: {args.jobs}   timeout: {args.timeout:g}s")
+    print(f"tool selection: {tool}/{n}   answer correct: {ans}/{n}   grounded: {gro}/{n}")
+    print(
+        f"all three: {summary.passed}/{n}   timeouts: {summary.count('timeout')}   "
+        f"network errors: {summary.count('transient_error')}   errors: {summary.count('error')}   "
+        f"cases retried: {summary.retried}"
+    )
+    print(f"wall time: {summary.wall_s:g} s   (sum of case times: {summary.busy_s:g} s)")
+    print(f"report: {index}")
+    dev = [r for r in summary.runs if r.case.get("split") != "heldout"]
+    return 0 if all(r.passed for r in dev) else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(
         prog="tidewise", description="Canadian tide data for AI assistants."
@@ -99,6 +145,20 @@ def main(argv: list[str] | None = None) -> int:
     ev.add_argument("--cases", help="path to a cases JSON file")
     ev.add_argument("-v", "--verbose", action="store_true", help="show every case")
 
+    rv = sub.add_parser(
+        "run-evals",
+        help="run each eval case in its own process, in parallel, and write an HTML report",
+    )
+    rv.add_argument("--model", choices=["anthropic", "fake", "sloppy", "flaky"], default="fake")
+    rv.add_argument("--jobs", type=int, default=min(8, os.cpu_count() or 2), help="cases at a time")
+    rv.add_argument("--timeout", type=float, default=60.0, help="seconds per attempt")
+    rv.add_argument("--retries", type=int, default=2, help="extra tries after a network error")
+    rv.add_argument("--latency-ms", type=int, default=0, help="add delay to every tool call")
+    rv.add_argument("--out", default="eval-report", help="folder for the report")
+    rv.add_argument("--cases", help="path to a cases JSON file")
+    rv.add_argument("--only", nargs="+", help="run only cases whose id contains one of these")
+    rv.add_argument("-v", "--verbose", action="store_true", help="print each case as it finishes")
+
     args = p.parse_args(argv)
     logging.getLogger().setLevel(
         logging.ERROR
@@ -112,6 +172,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "ask":
         return asyncio.run(_ask(args))
+    if args.cmd == "run-evals":
+        return asyncio.run(_run_evals(args))
     return asyncio.run(_eval(args))
 
 

@@ -40,3 +40,7 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# Long lines of HTML are easier to read as they are than split up.
+"src/tidewise/report.py" = ["E501"]
