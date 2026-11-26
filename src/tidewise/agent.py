@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Protocol
@@ -42,6 +44,7 @@ class ToolRecord:
     input: dict[str, Any]
     output: str
     is_error: bool
+    duration_ms: float = 0.0
 
 
 @dataclass
@@ -50,6 +53,8 @@ class AgentResult:
     tool_calls: list[ToolRecord] = field(default_factory=list)
     steps: int = 0
     stop_reason: str = "end_turn"
+    # Every model reply and tool call in order, with timings, for the trace pages.
+    trace: list[dict[str, Any]] = field(default_factory=list)
 
 
 def system_prompt(now: datetime) -> str:
@@ -91,8 +96,9 @@ class AnthropicModel:
 class McpTools:
     """Talks to the tidewise MCP server in-process, through the real MCP protocol."""
 
-    def __init__(self, server: MCPServer) -> None:
+    def __init__(self, server: MCPServer, latency_s: float = 0.0) -> None:
         self._client = Client(server)
+        self._latency_s = latency_s  # to measure the runner against a slow network
         self.specs: list[dict] = []
 
     async def __aenter__(self) -> McpTools:
@@ -108,6 +114,8 @@ class McpTools:
         await self._client.__aexit__(*exc)
 
     async def call(self, name: str, args: dict[str, Any]) -> tuple[str, bool]:
+        if self._latency_s:
+            await asyncio.sleep(self._latency_s)
         result = await self._client.call_tool(name, args)
         text = "".join(c.text for c in result.content if getattr(c, "type", "") == "text")
         return text[:MAX_TOOL_OUTPUT_CHARS], bool(result.is_error)
@@ -119,8 +127,27 @@ async def run_agent(
     system = system_prompt(now)
     messages: list[dict] = [{"role": "user", "content": question}]
     result = AgentResult(answer="")
+    t0 = time.perf_counter()
+
+    def ms() -> float:
+        return round((time.perf_counter() - t0) * 1000, 1)
+
     for step in range(1, MAX_STEPS + 1):
+        started = ms()
         turn = model.create(system, messages, tools.specs)
+        result.trace.append(
+            {
+                "type": "model",
+                "step": step,
+                "at_ms": started,
+                "duration_ms": round(ms() - started, 1),
+                "text": turn.text,
+                "stop_reason": turn.stop_reason,
+                "tool_calls": [
+                    {"id": c.id, "name": c.name, "input": c.input} for c in turn.tool_calls
+                ],
+            }
+        )
         result.steps = step
         result.stop_reason = turn.stop_reason
         messages.append({"role": "assistant", "content": turn.content})
@@ -134,11 +161,26 @@ async def run_agent(
             return result
         blocks = []
         for call in turn.tool_calls:
+            started = ms()
             try:
                 output, is_error = await tools.call(call.name, call.input)
             except Exception as exc:  # bad tool name, protocol problem
                 output, is_error = f"Tool call failed: {exc}", True
-            result.tool_calls.append(ToolRecord(call.name, call.input, output, is_error))
+            took = round(ms() - started, 1)
+            result.tool_calls.append(ToolRecord(call.name, call.input, output, is_error, took))
+            result.trace.append(
+                {
+                    "type": "tool",
+                    "step": step,
+                    "at_ms": started,
+                    "duration_ms": took,
+                    "id": call.id,
+                    "name": call.name,
+                    "input": call.input,
+                    "output": output,
+                    "is_error": is_error,
+                }
+            )
             blocks.append(
                 {
                     "type": "tool_result",

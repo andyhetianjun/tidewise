@@ -21,7 +21,8 @@
      "9:25"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "hilo-halifax-low-tomorrow",
@@ -43,7 +44,8 @@
      "3:33"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "hilo-saintjohn-tomorrow",
@@ -64,7 +66,8 @@
      "12:10"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "hilo-charlottetown-tomorrow",
@@ -85,7 +88,8 @@
      "11:25"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "hilo-halifax-next-high",
@@ -103,7 +107,8 @@
      "8:32"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "hilo-halifax-next-low",
@@ -121,7 +126,8 @@
      "2:39"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "hilo-charlottetown-date",
@@ -143,7 +149,8 @@
      "6:45"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "pred-vancouver-tomorrow",
@@ -164,7 +171,8 @@
      "0.015"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "pred-saintjohn-table",
@@ -186,7 +194,8 @@
      "0.36"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "pred-halifax-date",
@@ -206,7 +215,8 @@
      "0.04"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "obs-vancouver-yesterday",
@@ -227,7 +237,8 @@
      "0.71"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "obs-saintjohn-yesterday",
@@ -244,7 +255,8 @@
      "8.41"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "obs-halifax-gap",
@@ -270,7 +282,9 @@
      "not report"
     ]
    ],
-   "note": "Halifax reports no observed data in the sample, so the right answer is that it is unavailable."
+   "note": "Halifax reports no observed data in the sample, so the right answer is that it is unavailable.",
+   "category": "trap",
+   "expect_abstain": true
   },
   {
    "id": "compare-saintjohn",
@@ -291,7 +305,8 @@
      "0.18"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "compare-vancouver",
@@ -311,7 +326,8 @@
      "0.64"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "compare-tofino-surge",
@@ -332,7 +348,8 @@
      "0.749"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "stations-coords-halifax",
@@ -356,7 +373,8 @@
      "6.7"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "stations-coords-victoria",
@@ -380,7 +398,8 @@
      "07120"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "stations-name-vancouver",
@@ -400,7 +419,8 @@
      "07735"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "tide"
   },
   {
    "id": "unknown-place",
@@ -422,7 +442,9 @@
      "don't have"
     ]
    ],
-   "note": ""
+   "note": "",
+   "category": "trap",
+   "expect_abstain": true
   },
   {
    "id": "no-tool-needed",
@@ -440,7 +462,513 @@
      "only"
     ]
    ],
-   "note": "Off topic. The model should not call a tool."
+   "note": "Off topic. The model should not call a tool.",
+   "category": "trap",
+   "expect_abstain": true
+  },
+  {
+   "id": "wind-halifax-morning",
+   "category": "weather",
+   "question": "How windy will it be in Halifax tomorrow morning?",
+   "expected_tool": "get_hourly_weather",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "5 km/h"
+    ],
+    [
+     "3 knots"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "wind-vancouver-morning",
+   "category": "weather",
+   "question": "How windy will it be in Vancouver tomorrow morning?",
+   "expected_tool": "get_hourly_weather",
+   "expected_args": {
+    "station": [
+     "07735",
+     "Vancouver"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "40 km/h"
+    ],
+    [
+     "22 knots"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "temp-saintjohn-morning",
+   "category": "weather",
+   "question": "What will the temperature be in Saint John tomorrow morning?",
+   "expected_tool": "get_hourly_weather",
+   "expected_args": {
+    "station": [
+     "00065",
+     "Saint John"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "1.0 to 4.0",
+     "1 to 4"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "marine-warnings-vancouver",
+   "category": "weather",
+   "question": "Are there any marine warnings for Vancouver?",
+   "expected_tool": "get_marine_forecast",
+   "expected_args": {
+    "station": [
+     "07735",
+     "Vancouver"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "storm warning"
+    ],
+    [
+     "gale warning"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "marine-halifax",
+   "category": "weather",
+   "question": "What is the marine forecast for Halifax?",
+   "expected_tool": "get_marine_forecast",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "halifax harbour"
+    ],
+    [
+     "light"
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "id": "kayak-halifax-morning",
+   "category": "combined",
+   "question": "Is tomorrow morning a good time to launch a kayak at Halifax?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ],
+    "after": [
+     "2026-11-26"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "looks good"
+    ],
+    [
+     "08:36"
+    ],
+    [
+     "5 km/h"
+    ]
+   ],
+   "note": "Needs the tide times and both weather tools.",
+   "also_expected": [
+    {
+     "tool": "get_marine_forecast",
+     "args": {
+      "station": [
+       "00490",
+       "Halifax"
+      ]
+     }
+    },
+    {
+     "tool": "get_hourly_weather",
+     "args": {
+      "station": [
+       "00490",
+       "Halifax"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "kayak-vancouver-morning",
+   "category": "combined",
+   "question": "Is tomorrow morning a good time to launch a kayak at Vancouver?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "07735",
+     "Vancouver"
+    ],
+    "after": [
+     "2026-11-26"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "not a good time"
+    ],
+    [
+     "storm warning"
+    ],
+    [
+     "08:53"
+    ]
+   ],
+   "note": "A storm warning is in effect in the sample, so the right answer is no.",
+   "also_expected": [
+    {
+     "tool": "get_marine_forecast",
+     "args": {
+      "station": [
+       "07735",
+       "Vancouver"
+      ]
+     }
+    },
+    {
+     "tool": "get_hourly_weather",
+     "args": {
+      "station": [
+       "07735",
+       "Vancouver"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "canoe-tofino-morning",
+   "category": "combined",
+   "question": "Should I launch a canoe at Tofino tomorrow morning?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "08615",
+     "Tofino"
+    ],
+    "after": [
+     "2026-11-26"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "not a good time"
+    ],
+    [
+     "storm warning"
+    ],
+    [
+     "08:06"
+    ]
+   ],
+   "note": "",
+   "also_expected": [
+    {
+     "tool": "get_marine_forecast",
+     "args": {
+      "station": [
+       "08615",
+       "Tofino"
+      ]
+     }
+    },
+    {
+     "tool": "get_hourly_weather",
+     "args": {
+      "station": [
+       "08615",
+       "Tofino"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "paddle-charlottetown-afternoon",
+   "category": "combined",
+   "question": "Is tomorrow afternoon good for paddling at Charlottetown?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "01700",
+     "Charlottetown"
+    ],
+    "after": [
+     "2026-11-26"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "looks good"
+    ],
+    [
+     "12:22"
+    ],
+    [
+     "15 km/h"
+    ]
+   ],
+   "note": "",
+   "also_expected": [
+    {
+     "tool": "get_marine_forecast",
+     "args": {
+      "station": [
+       "01700",
+       "Charlottetown"
+      ]
+     }
+    },
+    {
+     "tool": "get_hourly_weather",
+     "args": {
+      "station": [
+       "01700",
+       "Charlottetown"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "boat-saintjohn-morning",
+   "category": "combined",
+   "question": "Can I go out on the water in a small boat at Saint John tomorrow morning?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "00065",
+     "Saint John"
+    ],
+    "after": [
+     "2026-11-26"
+    ]
+   },
+   "answer_must_include": [
+    [
+     "looks good"
+    ],
+    [
+     "06:20"
+    ],
+    [
+     "15 km/h"
+    ]
+   ],
+   "note": "",
+   "also_expected": [
+    {
+     "tool": "get_marine_forecast",
+     "args": {
+      "station": [
+       "00065",
+       "Saint John"
+      ]
+     }
+    },
+    {
+     "tool": "get_hourly_weather",
+     "args": {
+      "station": [
+       "00065",
+       "Saint John"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "trap-station-narnia",
+   "category": "trap",
+   "question": "What is the tide at Narnia Harbour tomorrow?",
+   "expected_tool": "find_stations",
+   "expected_args": {
+    "query": [
+     "Narnia Harbour"
+    ]
+   },
+   "answer_must_include": [],
+   "note": "There is no such station. The right answer is to say so.",
+   "expect_abstain": true
+  },
+  {
+   "id": "trap-hilo-far-future",
+   "category": "trap",
+   "question": "When is high tide in Halifax on 2026-12-30?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [],
+   "note": "Outside the data the sample holds.",
+   "expect_abstain": true
+  },
+  {
+   "id": "trap-observed-old",
+   "category": "trap",
+   "question": "What was the observed water level in Vancouver on 2026-10-01?",
+   "expected_tool": "get_water_levels",
+   "expected_args": {
+    "station": [
+     "07735",
+     "Vancouver"
+    ]
+   },
+   "answer_must_include": [],
+   "note": "Outside the data the sample holds.",
+   "expect_abstain": true
+  },
+  {
+   "id": "trap-wind-far",
+   "category": "trap",
+   "question": "How windy will it be in Halifax on 2026-12-05?",
+   "expected_tool": "get_hourly_weather",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [],
+   "note": "The hourly forecast only covers about a day.",
+   "expect_abstain": true
+  },
+  {
+   "id": "trap-waves",
+   "category": "trap",
+   "question": "How big will the waves be in Halifax tomorrow?",
+   "expected_tool": null,
+   "expected_args": {},
+   "answer_must_include": [],
+   "note": "No tool gives wave height.",
+   "expect_abstain": true
+  },
+  {
+   "id": "trap-water-temperature",
+   "category": "trap",
+   "question": "What is the water temperature in Vancouver?",
+   "expected_tool": null,
+   "expected_args": {},
+   "answer_must_include": [],
+   "note": "No tool gives water temperature.",
+   "expect_abstain": true
+  },
+  {
+   "id": "trap-marine-inland",
+   "category": "trap",
+   "question": "What is the marine forecast for Winnipeg?",
+   "expected_tool": "find_stations",
+   "expected_args": {
+    "query": [
+     "Winnipeg"
+    ]
+   },
+   "answer_must_include": [],
+   "note": "Winnipeg has no tide station.",
+   "expect_abstain": true
+  },
+  {
+   "id": "heldout-sea-ice",
+   "category": "trap",
+   "question": "Is the sea ice thick enough to walk on near Churchill?",
+   "expected_tool": "find_stations",
+   "expected_args": {
+    "query": [
+     "Churchill"
+    ]
+   },
+   "answer_must_include": [],
+   "note": "Written after the offline model was finished; not tuned for.",
+   "expect_abstain": true,
+   "split": "heldout"
+  },
+  {
+   "id": "heldout-future-year",
+   "category": "trap",
+   "question": "Will the tide be higher than 5 metres in Halifax on 2027-01-15?",
+   "expected_tool": "next_high_low_tide",
+   "expected_args": {
+    "station": [
+     "00490",
+     "Halifax"
+    ]
+   },
+   "answer_must_include": [],
+   "note": "Written after the offline model was finished; not tuned for.",
+   "expect_abstain": true,
+   "split": "heldout"
+  },
+  {
+   "id": "heldout-wind-yesterday",
+   "category": "trap",
+   "question": "What was the wind in Saint John yesterday?",
+   "expected_tool": "get_hourly_weather",
+   "expected_args": {
+    "station": [
+     "00065",
+     "Saint John"
+    ]
+   },
+   "answer_must_include": [],
+   "note": "The forecast tool cannot see the past.",
+   "expect_abstain": true,
+   "split": "heldout"
+  },
+  {
+   "id": "heldout-tidal-streams",
+   "category": "trap",
+   "question": "How strong are the tidal streams in Halifax Harbour?",
+   "expected_tool": null,
+   "expected_args": {},
+   "answer_must_include": [],
+   "note": "No tool gives tidal stream speed.",
+   "expect_abstain": true,
+   "split": "heldout"
+  },
+  {
+   "id": "heldout-kayak-unknown",
+   "category": "trap",
+   "question": "Is tomorrow morning a good time to launch a kayak at Lake Wobegon?",
+   "expected_tool": "find_stations",
+   "expected_args": {
+    "query": [
+     "Lake Wobegon"
+    ]
+   },
+   "answer_must_include": [],
+   "note": "There is no such station.",
+   "expect_abstain": true,
+   "split": "heldout"
   }
  ]
 }

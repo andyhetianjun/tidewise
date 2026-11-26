@@ -3,3 +3,7 @@
 
 class TidewiseError(Exception):
     """A problem the caller can fix: bad input, unknown station, no data."""
+
+
+class TransientError(Exception):
+    """A failure that may go away if the same request is tried again (network, rate limit)."""
